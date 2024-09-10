@@ -157,32 +157,11 @@ class Uzapi
                 'number' => $group,
                 'text' => $message,
                 'url' => $url
-            ]);
+            ]);   
 
-            if($response->status() != 200){
-                // Log::info($response->status());
-                // throw new \Exception('Could not send message to Uzapi.');
-
-                return false;
-            }
-        // }
-
-        return true;
+        return $response;
     }
 
-
-    /*
-     * curl --location -g 'https://fliptecnologia.uzapi.com.br:3333/setWebhooks' \
---header 'content-type: application/json' \
---header 'sessionkey: luanwppsessionkey' \
---data '{
-    "session": "luanwppsessionkey",
-    "wh_connect":"https://b397yuntrz.sharedwithexpose.com/webhook/1",
-	"wh_qrcode":"https://b397yuntrz.sharedwithexpose.com/webhook/1",
-	"wh_status":"https://b397yuntrz.sharedwithexpose.com/webhook/1",
-	"wh_message":"https://b397yuntrz.sharedwithexpose.com/webhook/1"
-}'
-    */
     public function setWebhook($url)
     {
         $response = Http::withHeaders([
@@ -278,13 +257,3 @@ class Uzapi
 
 
 }
-
-
-//curl --location -g 'https://fliptecnologia.uzapi.com.br:3333/sendText' \
-//--header 'content-type: application/json' \
-//--header 'sessionkey: luanwppsessionkey' \
-//--data '{
-//    "session": "luanwppsessionkey",
-//    "number": "120363300912960985",
-//    "text": "Testando envio de texto."
-//}'

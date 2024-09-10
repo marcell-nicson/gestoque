@@ -41,6 +41,7 @@ class OfertaController extends Controller
     
             $produto = $this->ofertaService->storeOferta($validatedData);
 
+
             if ($produto) { 
                 event(new ProdutoCriado($produto));
             }
