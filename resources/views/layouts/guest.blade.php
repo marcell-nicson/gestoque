@@ -15,7 +15,7 @@
         @vite(['resources/css/app.css', 'resources/js/app.js'])
     </head>
     <body class="font-sans text-gray-900 antialiased">
-        <section class="bg-[url('http://lightprint.com.br/wp-content/uploads/2021/10/gest%C3%A3o-de-estoque-1536x864.jpg')] bg-no-repeat bg-cover bg-center bg-gray-700 bg-blend-multiply bg-opacity-60">
+        <section style="background-image: url('/images/gestao.jpg');" class="bg-no-repeat bg-cover bg-center bg-gray-700 bg-blend-multiply bg-opacity-60">
             <div class="flex flex-col items-center justify-center px-4 py-8 mx-auto min-h-screen sm:px-8"> 
                 <a href="#" class="flex items-center mb-6 text-2xl font-semibold text-white">
                     G ESTOQUE

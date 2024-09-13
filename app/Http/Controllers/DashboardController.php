@@ -100,7 +100,7 @@ class DashboardController extends Controller
     public function entradasEsaidas()
     {
         $entradasMensais = Entrada::select(
-            DB::raw('DATE_FORMAT(created_at, "%Y-%m") as month'),
+            DB::raw('strftime(created_at, "%Y-%m") as month'),
             DB::raw('SUM(quantidade) as total_entradas')
         )
         ->where('status', 'ativo')
@@ -110,7 +110,7 @@ class DashboardController extends Controller
         ->pluck('total_entradas', 'month');
     
         $saidasMensais = Saida::select(
-            DB::raw('DATE_FORMAT(created_at, "%Y-%m") as month'),
+            DB::raw('strftime(created_at, "%Y-%m") as month'),
             DB::raw('SUM(quantidade) as total_saidas')
             
         )
