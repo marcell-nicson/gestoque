@@ -9,17 +9,27 @@ use App\Services\Uzapi;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Support\Facades\Log;
+use Exception;
 
 class EnviarNotificacaoProdutoCriado implements ShouldQueue
 {
     use InteractsWithQueue;
 
+    public $tries = 3;
+    public $backoff = 10;
+
+    protected $uzapi;
+    protected $ofertaService;
+    protected $grupo;
+
     /**
-     * Create the event listener.
+     * Create the event listener and instantiate services.
      */
-    public function __construct()
+    public function __construct(Uzapi $uzapi, OfertaService $ofertaService, Grupo $grupo)
     {
-        //
+        $this->uzapi = $uzapi;
+        $this->ofertaService = $ofertaService;
+        $this->grupo = $grupo;
     }
 
     /**
@@ -31,39 +41,24 @@ class EnviarNotificacaoProdutoCriado implements ShouldQueue
     public function handle(ProdutoCriado $event)
     {
         $produto = $event->produto;
-
-        $grupos = Grupo::all();
-        $uzapi = new Uzapi();
-        $ofertaService = new OfertaService();
-
-        $mensagem = $ofertaService->formatMessage($produto->toArray());
+        $grupos = $this->grupo->allgroups();
+        $mensagem = $this->ofertaService->formatMessage($produto->toArray());
 
         foreach ($grupos as $grupo) {
-            $contador = 0;
-            $sucesso = false;
+            try {
+                $response = $this->uzapi->sendLink($grupo->grupo_id, $mensagem, $produto->link);
 
-            while ($contador < 3 && !$sucesso) {
-                $response = $uzapi->sendLink($grupo->grupo_id, $mensagem, $produto->link);
-
-                if ($response && $response->status() == 200) {
-                    $sucesso = true;
-                    Log::info("Mensagem enviada com sucesso para o grupo " . $grupo->grupo_id);
-                } else {
-                    $contador++;
-                    Log::warning("Tentativa {$contador} falhou para o grupo " . $grupo->grupo_id);
-
-                    if ($contador < 3) {
-                        sleep(10);
-                    }
+                if ($response->status() != 200) {
+                    throw new Exception("Erro  {$grupo->grupo_id}. Status: " . $response->status());
                 }
-            }
 
-            if (!$sucesso) {
-                Log::error("Falha no envio para o grupo " . $grupo->grupo_id . " após 3 tentativas.");
-                break;
+            } catch (Exception $e) {
+                Log::error("Falha ao enviar mensagem para o grupo {$grupo->grupo_id}: " . $e->getMessage());
+                
+                break; 
             }
+            sleep(4);
         }
 
-        Log::info("Produto criado: " . $produto->nome);
     }
 }
