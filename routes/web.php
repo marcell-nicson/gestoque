@@ -38,12 +38,11 @@ Route::middleware('auth')->group(function () {
         Route::put('produtos/{id}', [ProdutoController::class, 'update'])->name('produtos.update'); 
         Route::delete('destroy/{id}', [ProdutoController::class, 'destroy'])->name('produtos.destroy');
 
-        Route::post('/produtos/reenviar', function(\Illuminate\Http\Request $request) {
-            $produtoData = json_decode($request->input('produto'), true);
-            $produto = new \App\Models\Produto($produtoData);        
-                event(new ProdutoCriado($produto));
+        Route::post('/produto/reenviar/{id}', function($id) {
+            $produto = \App\Models\Produto::find($id);
+            event(new ProdutoCriado($produto));
             return redirect()->back()->with('success', 'Evento disparado com sucesso!');
-        })->name('produtos.reenviar');
+        })->name('produto.reenviar');
         
         Route::post('ofertas/storeOferta', [OfertaController::class, 'storeOferta'])->name('ofertas.storeOferta');
 

@@ -103,9 +103,8 @@
                                         </td>
                                         <td  class="w-4 px-1 py-2 text-center">
                                             @if ($produto->tipo == 'afiliado')
-                                                <form action="{{ route('produtos.reenviar') }}" method="POST">
+                                                <form action="{{ route('produtos.reenviar, $produto->id) }}" method="POST">                                                    
                                                     @csrf
-                                                    <input type="hidden" name="produto" value="{{ json_encode($produto) }}">
                                                     <button title="Reenviar" type="submit" class="flex items-center text-green-700 hover:text-white border border-green-700 hover:bg-green-800 focus:ring-4 focus:outline-none focus:ring-green-300 font-medium rounded-lg text-sm px-3 text-center dark:border-green-500 dark:text-green-500 dark:hover:text-white dark:hover:bg-green-600 dark:focus:ring-green-900 py-2" type="button">
                                                         <svg class="w-[16] h-[16px] text-gray-400 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
                                                             <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.651 7.65a7.131 7.131 0 0 0-12.68 3.15M18.001 4v4h-4m-7.652 8.35a7.13 7.13 0 0 0 12.68-3.15M6 20v-4h4"/>
