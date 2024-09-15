@@ -44,6 +44,7 @@ Route::middleware('auth')->group(function () {
             return redirect()->back()->with('success', 'Evento disparado com sucesso!');
         })->name('produtos.reenviar');
         
+        
         Route::post('ofertas/storeOferta', [OfertaController::class, 'storeOferta'])->name('ofertas.storeOferta');
 
     Route::prefix('categorias')->group(function () {
