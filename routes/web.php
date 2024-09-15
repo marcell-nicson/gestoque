@@ -1,5 +1,6 @@
 <?php
 
+use App\Events\ProdutoCriado;
 use App\Http\Controllers\AfiliadoController;
 use App\Http\Controllers\CategoriaController;
 use App\Http\Controllers\DashboardController;
@@ -36,6 +37,13 @@ Route::middleware('auth')->group(function () {
         Route::get('produtos/{id}/edit', [ProdutoController::class, 'edit'])->name('produtos.edit'); 
         Route::put('produtos/{id}', [ProdutoController::class, 'update'])->name('produtos.update'); 
         Route::delete('destroy/{id}', [ProdutoController::class, 'destroy'])->name('produtos.destroy');
+
+        Route::post('/produtos/reenviar', function(\Illuminate\Http\Request $request) {
+            $produtoData = json_decode($request->input('produto'), true);
+            $produto = new \App\Models\Produto($produtoData);        
+                event(new ProdutoCriado($produto));
+            return redirect()->back()->with('success', 'Evento disparado com sucesso!');
+        })->name('produtos.reenviar');
         
         Route::post('ofertas/storeOferta', [OfertaController::class, 'storeOferta'])->name('ofertas.storeOferta');
 

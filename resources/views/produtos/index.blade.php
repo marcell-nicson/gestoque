@@ -65,6 +65,7 @@
                                     <th scope="col" class="px-6 py-3 text-center">Preço</th>
                                     <th scope="col" class="px-6 py-3 text-center">Promoção</th>
                                     <th scope="col" class="px-6 py-3"></th>
+                                    <th scope="col" class="px-6 py-3"></th>
                                     <th scope="col" class="px-8 py-3"></th>
                                 </tr>
                             </thead>
@@ -99,7 +100,21 @@
                                                     <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="m1 1 6 6m0 0 6 6M7 7l6-6M7 7l-6 6"/>
                                                 </svg>
                                             @endif                                                                                      
-                                        </td> 
+                                        </td>
+                                        <td  class="w-4 px-1 py-2 text-center">
+                                            @if ($produto->tipo == 'afiliado')
+                                                <form action="{{ route('produtos.reenviar') }}" method="POST">
+                                                    @csrf
+                                                    <input type="hidden" name="produto" value="{{ json_encode($produto) }}">
+                                                    <button title="Reenviar" type="submit" class="flex items-center text-green-700 hover:text-white border border-green-700 hover:bg-green-800 focus:ring-4 focus:outline-none focus:ring-green-300 font-medium rounded-lg text-sm px-3 text-center dark:border-green-500 dark:text-green-500 dark:hover:text-white dark:hover:bg-green-600 dark:focus:ring-green-900 py-2" type="button">
+                                                        <svg class="w-[16] h-[16px] text-gray-400 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                                                            <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.651 7.65a7.131 7.131 0 0 0-12.68 3.15M18.001 4v4h-4m-7.652 8.35a7.13 7.13 0 0 0 12.68-3.15M6 20v-4h4"/>
+                                                        </svg>
+                                                    </button>
+                                                </form>
+                                            @endif
+                                        </td>
+
                                         <td class="w-4 px-1 py-2 text-center">
                                             <button data-modal-target="editProductModal" data-modal-toggle="editProductModal" class="flex items-center text-primary-700 hover:text-white border border-primary-700 hover:bg-primary-800 focus:ring-4 focus:outline-none focus:ring-primary-300 font-medium rounded-lg text-sm px-3 text-center dark:border-primary-500 dark:text-primary-500 dark:hover:text-white dark:hover:bg-primary-600 dark:focus:ring-primary-900 py-2" type="button">
                                                 <svg class="w-[16] h-[16px]  text-gray-800 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg"  fill="none" viewBox="0 0 24 24">
