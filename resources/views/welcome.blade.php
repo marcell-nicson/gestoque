@@ -44,7 +44,7 @@
                 <button type="submit" class="w-full font-medium rounded-lg text-xs px-5 py-2.5 text-center bg-gray-800 dark:bg-gray-200 border border-transparent  text-white dark:text-gray-800 uppercase tracking-widest hover:bg-gray-700 dark:hover:bg-white focus:bg-gray-700 dark:focus:bg-white active:bg-gray-900 dark:active:bg-gray-300 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 dark:focus:ring-offset-gray-800 transition ease-in-out duration-150">Entrar na Conta</button>
 
                 <p class="text-sm font-light text-center text-gray-500 dark:text-gray-300">
-                        <a href="{{ route('register') }}" class="font-medium text-primary-600 hover:underline dark:text-primary-500">Ainda não tem uma conta?</a>
+                        <!-- <a href="{{ route('/') }}" class="font-medium text-primary-600 hover:underline dark:text-primary-500">Ainda não tem uma conta?</a> -->
                 </p>
             </form>
         </div>
