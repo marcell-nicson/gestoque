@@ -28,8 +28,7 @@ class OfertaService
         $produtoData = [
             'id' => $produto['id'],
             'nome' => $produto['nome'],
-            'valor' => $produto['valor'], 
-            'link' => $produto['link'],
+            'valor' => $produto['valor'],
             'link_ofertas' => 'https://chat.whatsapp.com/ENRq8GMZHfqKxLErJoYdXX'
         ];
 
