@@ -1,3 +1,13 @@
+@section('header')
+    <meta property="og:title" content="{{ $produto->nome }}" />
+    <meta property="og:description" content="Descrição do produto" />
+    <meta property="og:image" content="{{asset('images/' . $produto->image)}}" />                                                    
+    <meta property="og:url" content="{{ route('ofertas.show', $produto->id) }}" />
+    <meta property="og:type" content="product" />
+    <meta property="og:title" content="Promoestoque" />   
+    <title>PromoEstoque - {{ $produto->nome }}</title>
+@endsection
+
 <x-oferta-layout>
     <section class="h-full min-h-screen" style="background: rgb(221, 178, 37);">
         <div class="text-center p-2 mb-0 lg:mb-0"> <!-- Ajuste aqui -->
