@@ -32,7 +32,7 @@
                                 <h3 class="text-xl font-bold tracking-tight text-center text-blue-800 dark:text-gray-400">R$ {{ number_format($produto->valor / 100, 2, ',', '.') }}</h3>
                                 <p class="font-light text-center text-gray-500 dark:text-gray-400">à vista</p>
                                 <div class="mt-5">
-                                    <a href="{{ route('ofertas.show', $produto->id) }}" target="_blank" class="inline-flex w-full justify-center rounded-md border border-transparent bg-[#24b45d] py-3 px-5 text-sm font-medium text-white shadow-sm hover:bg-[#1b8746] focus:outline-none focus:ring-2 focus:ring-[#24b45d] focus:ring-offset-2 disabled:opacity-75 cursor-pointer"> 
+                                    <a href="{{ $produto->link }}" target="_blank" class="inline-flex w-full justify-center rounded-md border border-transparent bg-[#24b45d] py-3 px-5 text-sm font-medium text-white shadow-sm hover:bg-[#1b8746] focus:outline-none focus:ring-2 focus:ring-[#24b45d] focus:ring-offset-2 disabled:opacity-75 cursor-pointer"> 
                                         Pegar promoção 
                                         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true" class="w-5 h-5 ml-2 -mr-1">
                                             <path fill-rule="evenodd" d="M4.25 5.5a.75.75 0 00-.75.75v8.5c0 .414.336.75.75.75h8.5a.75.75 0 00.75-.75v-4a.75.75 0 011.5 0v4A2.25 2.25 0 0112.75 17h-8.5A2.25 2.25 0 012 14.75v-8.5A2.25 2.25 0 014.25 4h5a.75.75 0 010 1.5h-5z" clip-rule="evenodd"></path>
