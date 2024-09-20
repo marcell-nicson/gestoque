@@ -46,7 +46,7 @@ class EnviarNotificacaoProdutoCriado implements ShouldQueue
 
         foreach ($grupos as $grupo) {
             try {
-                $response = $this->uzapi->sendLink($grupo->grupo_id, $mensagem, $produto->link);
+                $response = $this->uzapi->sendLink($grupo->grupo_id, $mensagem, "https://promoestoque.com.br/ofertas/{$produto['id']}");
 
                 if ($response->status() != 200) {
                     throw new Exception("Erro  {$grupo->grupo_id}. Status: " . $response->status());
