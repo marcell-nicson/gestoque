@@ -35,7 +35,7 @@ class OfertaService
 
         return '*' . $produtoData['nome'] . "*\n\n" .                            
                'por ' . number_format($produtoData['valor'] / 100, 2, ',', '.') . " 🔥\n\n" .                            
-               "🛒 Link de compra:\n" . "https://promoestoque.com.br/ofertas/{$produtoData['id']}" . "\n\n" .
+               "🛒 Link de compra:\n" . route('ofertas.show', $produtoData['id']) . "\n\n" .
                "📲 Link do grupo de ofertas:\n" . $produtoData['link_ofertas'];
     }
 }
