@@ -12,6 +12,16 @@
                 <div class="flex flex-col justify-center items-center px-6 gap-y-2">            
                     <div class="grid gap-6 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
                         @foreach ($produtos as $produto)
+
+                            <!-- Meta tags para a página do produto atual -->
+                            <meta property="og:title" content="{{ $produto->nome }}" />
+                            <meta property="og:description" content="Descrição do produto" />
+                            <meta property="og:image" content="https://promoestoque.com.br/images/{$produto['image']}" />                                                    
+                            <meta property="og:url" content="https://promoestoque.com.br/ofertas/{$produto['id']}" />
+                            <meta property="og:type" content="product" />
+                            <meta property="og:title" content="Promoestoque" />   
+                       
+
                             <div class="bg-white rounded-3xl border border-gray-200 shadow-sm dark:bg-gray-800 dark:border-gray-700">
                                 <div class="flex items-center justify-center h-[288px]">
                                     <a href="{{ route('ofertas.show', $produto->id)  }}">
