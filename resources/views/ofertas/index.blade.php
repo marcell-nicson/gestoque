@@ -9,7 +9,7 @@
                     <span class="text-black dark:text-gray-600">{{ __('Nenhum Produto Cadastrado!') }}</span>
                 </div>
             @else
-                <div class="flex flex-col justify-center items-center px-20 gap-y-2">            
+                <div class="flex flex-col justify-center items-center px-6 gap-y-2">            
                     <div class="grid gap-6 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
                         @foreach ($produtos as $produto)
                             <div class="bg-white rounded-3xl border border-gray-200 shadow-sm dark:bg-gray-800 dark:border-gray-700">
@@ -19,8 +19,8 @@
                                     </a>
                                 </div>
                                 
-                                <div class="px-5 pb-5">                     
-                                    <p class="text-lg font-light text-center">{{ $produto->nome ?? 'default'}}</p>
+                                <div class="px-5 pb-5">            
+                                    <p class="flex items-center justify-center h-[80px] text-lg font-light text-center">{{ $produto->nome ?? 'default'}}</p>
                                     <p class="mt-3 font-light text-center text-gray-500 dark:text-gray-400">A partir de:</p>
                                     <h3 class="text-xl font-bold tracking-tight text-center text-blue-800 dark:text-gray-400">R$ {{ number_format($produto->valor / 100, 2, ',', '.') }}</h3>
                                     <p class="font-light text-center text-gray-500 dark:text-gray-400">à vista</p>
