@@ -44,7 +44,7 @@ class OfertaController extends Controller
 
             if ($produto) {
                 
-                $this->ofertaService->sendText($validatedData['grupo_id'], $this->ofertaService->formatMessage($produto->toArray()));
+                $this->ofertaService->sendText($produto->grupo_id, $this->ofertaService->formatMessage($produto->toArray()));
                 
                 // event(new ProdutoCriado($produto));
             }
