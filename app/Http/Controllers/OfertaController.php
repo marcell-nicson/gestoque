@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Events\ProdutoCriado;
 use App\Http\Requests\StoreOfertaRequest;
+use App\Models\Grupo;
 use App\Models\Produto;
 use App\Services\OfertaService;
 use App\Services\Uzapi;
@@ -40,12 +41,15 @@ class OfertaController extends Controller
             $validatedData = $request->validated();
     
             $produto = $this->ofertaService->storeOferta($validatedData);
-
+            $mensagem = $this->ofertaService->formatMessage($produto->toArray());
 
             if ($produto) {
-                
-                $this->ofertaService->sendText($produto->grupo_id, $this->ofertaService->formatMessage($produto->toArray()));
-                
+
+                $grupos = Grupo::all();
+                foreach ($grupos as $grupo) {
+                    $this->ofertaService->sendText($grupo->grupo_id, $mensagem);
+
+                }                
                 // event(new ProdutoCriado($produto));
             }
             
