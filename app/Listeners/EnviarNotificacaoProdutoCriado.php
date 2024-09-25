@@ -48,8 +48,8 @@ class EnviarNotificacaoProdutoCriado implements ShouldQueue
         foreach ($grupos as $grupo) {
             try {
                 // $response = $this->uzapi->sendLink($grupo->grupo_id, $mensagem, route('ofertas.show', $produto->id));
-                $this->evolutionApi->sendText($grupo->grupo_id, $mensagem);
-       
+                $resposta = $this->evolutionApi->sendText($grupo->grupo_id, $mensagem);
+                info($resposta);
             } catch (Exception $e) {
                 Log::error("Falha ao enviar mensagem para o grupo {$grupo->grupo_id}: " . $e->getMessage());
                 
