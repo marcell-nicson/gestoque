@@ -4,6 +4,7 @@ namespace App\Listeners;
 
 use App\Events\ProdutoCriado;
 use App\Models\Grupo;
+use App\Services\EvolutionApi;
 use App\Services\OfertaService;
 use App\Services\Uzapi;
 use Illuminate\Contracts\Queue\ShouldQueue;
@@ -18,16 +19,16 @@ class EnviarNotificacaoProdutoCriado implements ShouldQueue
     public $tries = 3;
     public $backoff = 10;
 
-    protected $uzapi;
+    protected $evolutionApi;
     protected $ofertaService;
     protected $grupo;
 
     /**
      * Create the event listener and instantiate services.
      */
-    public function __construct(Uzapi $uzapi, OfertaService $ofertaService, Grupo $grupo)
+    public function __construct(EvolutionApi $evolutionApi, OfertaService $ofertaService, Grupo $grupo)
     {
-        $this->uzapi = $uzapi;
+        $this->evolutionApi = $evolutionApi;
         $this->ofertaService = $ofertaService;
         $this->grupo = $grupo;
     }
@@ -46,12 +47,9 @@ class EnviarNotificacaoProdutoCriado implements ShouldQueue
 
         foreach ($grupos as $grupo) {
             try {
-                $response = $this->uzapi->sendLink($grupo->grupo_id, $mensagem, route('ofertas.show', $produto->id));
-
-                if ($response->status() != 200) {
-                    throw new Exception("Erro  {$grupo->grupo_id}. Status: " . $response->status());
-                }
-
+                // $response = $this->uzapi->sendLink($grupo->grupo_id, $mensagem, route('ofertas.show', $produto->id));
+                $this->evolutionApi->sendText($grupo->grupo_id, $mensagem);
+       
             } catch (Exception $e) {
                 Log::error("Falha ao enviar mensagem para o grupo {$grupo->grupo_id}: " . $e->getMessage());
                 
