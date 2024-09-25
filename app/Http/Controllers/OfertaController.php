@@ -42,9 +42,13 @@ class OfertaController extends Controller
             $produto = $this->ofertaService->storeOferta($validatedData);
 
 
-            if ($produto) { 
-                event(new ProdutoCriado($produto));
+            if ($produto) {
+                
+                $this->ofertaService->sendText($validatedData['grupo_id'], $this->ofertaService->formatMessage($produto->toArray()));
+                
+                // event(new ProdutoCriado($produto));
             }
+            
     
             return redirect()->route('produtos.index')->with('success', 'Oferta criada com sucesso.');
     

@@ -109,9 +109,11 @@ class EvolutionApi
             'apikey' => $this->apikey,
         ])->post($this->baseUrl . '/message/sendText/' . $this->instance, $data); 
     
-        $resposta = json_decode($response->body(), true);
-    
-        Log::info($resposta);
+
+        Log::info($response);
+
+        $resposta = json_decode($response->body(), true);  
+     
     
         return $resposta; 
     }

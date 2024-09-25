@@ -37,4 +37,11 @@ class OfertaService
                "🛒 Link de compra:\n" . route('ofertas.show', $produtoData['id']) . "\n\n" .
                "📲 Link do grupo de ofertas:\n" . $produtoData['link_ofertas'];
     }
+
+    public function sendText($grupoId, $mensagem)
+    {
+        $evolutionApi = new EvolutionApi();
+        return $evolutionApi->sendText($grupoId, $mensagem);
+
+    }
 }
