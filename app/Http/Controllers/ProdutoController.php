@@ -4,13 +4,17 @@ namespace App\Http\Controllers;
 
 use App\Models\Categoria;
 use App\Models\Entrada;
+use App\Models\Grupo;
 use App\Models\Marca;
 use App\Models\Produto;
 use App\Models\Saida;
+use App\Services\EvolutionApi;
+use App\Services\OfertaService;
 use App\Services\Uzapi;
 use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
+use Illuminate\Support\Facades\Log;
 
 class ProdutoController extends Controller
 {
@@ -166,5 +170,30 @@ class ProdutoController extends Controller
         } catch (Exception $e) {
             info($e);
         }
+    }
+
+    public function reenviar($id)
+    {
+        $produto = Produto::findOrFail($id);
+        
+        $grupos = Grupo::all();
+        $evolutionApi = new EvolutionApi();
+        $ofertaService = new OfertaService();
+
+        $mensagem = $ofertaService->formatMessage($produto->toArray());
+
+        foreach ($grupos as $grupo) {
+            try {
+                
+                $resposta = $evolutionApi->sendText($grupo->grupo_id, $mensagem);
+                info($resposta);
+
+            } catch (Exception $e) {
+                Log::error("Falha ao enviar mensagem para o grupo {$grupo->grupo_id}: " . $e->getMessage());
+                
+                break; 
+            }
+            sleep(4);
+        }            
     }
 }

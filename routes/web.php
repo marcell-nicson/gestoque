@@ -38,11 +38,7 @@ Route::middleware('auth')->group(function () {
         Route::put('produtos/{id}', [ProdutoController::class, 'update'])->name('produtos.update'); 
         Route::delete('destroy/{id}', [ProdutoController::class, 'destroy'])->name('produtos.destroy');
 
-        Route::post('/produtos/reenviar/{id}', function($id) {
-            $produto = \App\Models\Produto::find($id);
-            event(new ProdutoCriado($produto));
-            return redirect()->back()->with('success', 'Evento disparado com sucesso!');
-        })->name('produtos.reenviar');
+        Route::post('/produtos/reenviar/{id}', [ProdutoController::class, 'reenviar'])->name('produtos.reenviar');
         
         
         Route::post('ofertas/storeOferta', [OfertaController::class, 'storeOferta'])->name('ofertas.storeOferta');
