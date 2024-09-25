@@ -78,122 +78,13 @@ class EvolutionApi
 
         return $groupIds; 
     }
-
-    public function sendPromotionTemplate($number, $product, $oldPrice = null, $installments = null)
-    {
-        $response = Http::withHeaders([
-            'Content-Type' => 'application/json',
-            'apikey' => $this->apikey,
-        ])->post($this->baseUrl . '/message/sendTemplate/'.$this->instance, [
-            'number' => $number, 
-            'name' => 'promotion_template', // Nome do template aprovado
-            'language' => 'pt_BR',
-            'components' => [
-                [
-                    'type' => 'header',
-                    'parameters' => [
-                        [
-                            'type' => 'image', // Adiciona a imagem do produto no cabeçalho
-                            'image' => [
-                                'link' => $product->image // Link da imagem do produto
-                            ]
-                        ]
-                    ]
-                ],
-                [
-                    'type' => 'body',
-                    'parameters' => [
-                        [
-                            'type' => 'text', // Nome do produto
-                            'text' => $product->nome
-                        ],
-                        // [
-                        //     'type' => 'text', // Preço antigo
-                        //     'text' => $oldPrice
-                        // ],
-                        [
-                            'type' => 'text', // Preço novo com desconto
-                            'text' => $product->valor
-                        ],
-                        // [
-                        //     'type' => 'text', // Parcelamento
-                        //     'text' => $installments
-                        // ]
-                    ]
-                ],
-                // [
-                //     'type' => 'footer',
-                //     'parameters' => [
-                //         [
-                //             'type' => 'text', // Mensagem de frete grátis ou algum benefício
-                //             'text' => 'Frete Grátis c/ Amazon PRIME'
-                //         ]
-                //     ]
-                // ],
-                [
-                    'type' => 'button',
-                    'sub_type' => 'url', // Botão com link para compra
-                    'index' => '0',
-                    'parameters' => [
-                        [
-                            'type' => 'text',
-                            'text' => 'Link de compra: ' . route('ofertas.show', $product->id)
-                        ]
-                    ]
-                ],
-                [
-                    'type' => 'button',
-                    'sub_type' => 'url', // Botão com link para grupo de ofertas
-                    'index' => '1',
-                    'parameters' => [
-                        [
-                            'type' => 'text',
-                            'text' => 'Link do grupo de ofertas: https://chat.whatsapp.com/ENRq8GMZHfqKxLErJoYdXX'
-                        ]
-                    ]
-                ]
-            ]
-        ]);
-
-        $resposta = json_decode($response->body(), true);
-        Log::info($resposta);     
-
-        return $resposta;
-    }
-
-    // public function sendText($number, $text, $quotedKey = null, $quotedMessage = null, $linkPreview = true, $mentionsEveryOne = true, $mentioned = [])
-    // {
-    //     $response = Http::withHeaders([
-    //         'Content-Type' => 'application/json',
-    //         'apikey' => $this->apikey,
-    //     ])->post($this->baseUrl . '/message/sendText/' . $this->instance, [
-    //         'number' => $number,
-    //         'text' => $text,
-    //         'delay' => '1',
-    //         'quoted' => [
-    //             'key' => $quotedKey,
-    //             'message' => [
-    //                 'conversation' => $quotedMessage,
-    //             ],
-    //         ],
-    //         'linkPreview' => $linkPreview,
-    //         'mentionsEveryOne' => $mentionsEveryOne,
-    //         'mentioned' => $mentioned,
-    //     ]); 
-    
-    //     $resposta = json_decode($response->body(), true);
-    
-    //     Log::info($resposta);
-    
-    //     return $resposta; 
-    // }
-    
+ 
     public function sendText($number, $text, $quotedKey = null, $quotedMessage = null, $linkPreview = true, $mentionsEveryOne = false, $mentioned = [])
     {
         $data = [
             'number' => $number,
             'text' => $text,
-            'delay' => 1000, // Atraso em milissegundos (1 segundo)
+            'delay' => 5, // Atraso em milissegundos (1 segundo)
             'linkPreview' => $linkPreview,
             'mentionsEveryOne' => $mentionsEveryOne,
         ];
