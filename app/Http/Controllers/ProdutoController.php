@@ -194,6 +194,11 @@ class ProdutoController extends Controller
                 break; 
             }
             sleep(4);
-        }            
+        }  
+        
+        return redirect()->route('produtos.index')->with('success', 'Produto reenviado com sucesso.');
+
     }
+
+
 }
