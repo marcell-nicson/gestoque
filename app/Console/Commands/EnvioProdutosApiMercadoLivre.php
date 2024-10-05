@@ -32,6 +32,11 @@ class EnvioProdutosApiMercadoLivre extends Command
     public function handle()
     {
         try {
+
+            if (!$this->isAccessTokenValid()) {
+                $this->refreshAccessToken();
+            }
+
             // Obtenha as ofertas
             $jsonResponse = $this->mercadoLivreApi->getOfertas();
             $json = $jsonResponse->getData(true);
