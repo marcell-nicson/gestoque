@@ -33,8 +33,8 @@ class EnvioProdutosApiMercadoLivre extends Command
     {
         try {
 
-            if (!$this->isAccessTokenValid()) {
-                $this->refreshAccessToken();
+            if (!$this->mercadoLivreApi->isAccessTokenValid()) {
+                $this->mercadoLivreApi->refreshAccessToken();
             }
 
             // Obtenha as ofertas
