@@ -74,11 +74,13 @@ class teste extends Command
             $access_token = $resposta['access_token'];
             $token_expires_at = Carbon::now()->addSeconds($expires_in);
 
-            Redis::setex($access_token_key, $expires_in, $access_token);
-            Redis::setex($refresh_token_key, $expires_in, $new_refresh_token);
-            Redis::setex($expires_at_key, $expires_in, $token_expires_at->toISOString());
+            $access_token_key = Redis::setex($access_token_key, $expires_in, $access_token);
+            $refresh_token_key = Redis::setex($refresh_token_key, $expires_in, $new_refresh_token);
+            $expires_at_key = Redis::setex($expires_at_key, $expires_in, $token_expires_at->toISOString());
 
-
+            $this->info($access_token_key);
+            $this->info($refresh_token_key);
+            $this->info($expires_at_key);
             // $service = new MercadoLivreApi();
             // $ofertaService = new OfertaService();
             // $evolutionApi = new EvolutionApi();
