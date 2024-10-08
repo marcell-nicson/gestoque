@@ -7,6 +7,7 @@ use App\Http\Requests\StoreOfertaRequest;
 use App\Models\Grupo;
 use App\Models\Produto;
 use App\Services\EvolutionApi;
+use App\Services\MercadoLivreApi;
 use App\Services\OfertaService;
 use App\Services\Uzapi;
 use Exception;
@@ -31,7 +32,7 @@ class OfertaController extends Controller
 
     public function show($id)
     {
-        $produto = Produto::find($id);        
+        $produto = Produto::find($id);
 
         return view('ofertas.show', compact('produto'));
 
@@ -47,26 +48,26 @@ class OfertaController extends Controller
 
             if ($produto) {
 
-                $grupos = Grupo::all();
-                $evolutionApi = new EvolutionApi();
-                $ofertaService = new OfertaService();
+                // $grupos = Grupo::all();
+                // $evolutionApi = new EvolutionApi();
+                // $ofertaService = new OfertaService();
     
-                $mensagem = $ofertaService->formatMessage($produto->toArray());
+                // $mensagem = $ofertaService->formatMessage($produto->toArray());
         
-                foreach ($grupos as $grupo) {
-                    try {
+                // foreach ($grupos as $grupo) {
+                //     try {
                         
-                        $resposta = $evolutionApi->sendText($grupo->grupo_id, $mensagem);
-                        info($resposta);
+                //         $resposta = $evolutionApi->sendText($grupo->grupo_id, $mensagem);
+                //         info($resposta);
     
-                    } catch (Exception $e) {
-                        Log::error("Falha ao enviar mensagem para o grupo {$grupo->grupo_id}: " . $e->getMessage());
+                //     } catch (Exception $e) {
+                //         Log::error("Falha ao enviar mensagem para o grupo {$grupo->grupo_id}: " . $e->getMessage());
                         
-                        break; 
-                    }
-                    sleep(4);
-                }            
-                // event(new ProdutoCriado($produto));
+                //         break; 
+                //     }
+                //     sleep(4);
+                // }            
+                event(new ProdutoCriado($produto));
             }
             
     
@@ -77,5 +78,38 @@ class OfertaController extends Controller
             return redirect()->route('produtos.index')->with('danger', 'Erro ao Criar Oferta.');
         }
     }
+
+    public function lista()
+    {
+        $service = new MercadoLivreApi();
+    
+        if (!$service->isAccessTokenValid()) {
+            $service->refreshAccessToken(); 
+        }
+    
+        $jsonResponse = $service->getOfertas();
+        $json = $jsonResponse->getData(true);
+
+        if ($jsonResponse->status() != 200) {
+            return redirect()->route('ofertas.lista')->with('error', $jsonResponse->content());
+        }       
+    
+        $filtradas = [];
+        foreach ($json['results'] as $result) {
+            $filtradas[] = [
+                'id' => $result['id'],
+                'title' => $result['title'],
+                'category_id' => $result['category_id'],
+                'thumbnail' => $result['thumbnail'],
+                'price' => $result['price'],
+                'original_price' => $result['original_price'],
+                'image' => 'http://http2.mlstatic.com/D_NQ_NP_' . $result['thumbnail_id'] . '-O.webp'
+            ];
+        }
+    
+        return view('ofertas.lista', compact('filtradas'));
+    }
+    
+    
 
 }
