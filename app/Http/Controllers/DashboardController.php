@@ -42,20 +42,22 @@ class DashboardController extends Controller
     public function index()
     {
 
-        $produtosPorCat = $this->produtosPorCategorias(); 
-        $entradasEsaidas = $this->entradasEsaidas();
-        return view('dashboard', [
-            'produtosLabels' => $produtosPorCat[0],
-            'produtosVendas' => $produtosPorCat[1],
-            'categoriasLabels' => $produtosPorCat[2],
-            'categoriasEstoque' => $produtosPorCat[3],
-            'categoriasColors' => $produtosPorCat[4],
-            'months' => $entradasEsaidas[0],
-            'entradas' => $entradasEsaidas[1],
-            'saidas' => $entradasEsaidas[2],
-            'porcentagem' => $entradasEsaidas[3],
-            'totalentradasesaidas' => $entradasEsaidas[4]
-        ]);
+        // $produtosPorCat = $this->produtosPorCategorias(); 
+        // $entradasEsaidas = $this->entradasEsaidas();
+        // return view('dashboard', [
+        //     'produtosLabels' => $produtosPorCat[0],
+        //     'produtosVendas' => $produtosPorCat[1],
+        //     'categoriasLabels' => $produtosPorCat[2],
+        //     'categoriasEstoque' => $produtosPorCat[3],
+        //     'categoriasColors' => $produtosPorCat[4],
+        //     'months' => $entradasEsaidas[0],
+        //     'entradas' => $entradasEsaidas[1],
+        //     'saidas' => $entradasEsaidas[2],
+        //     'porcentagem' => $entradasEsaidas[3],
+        //     'totalentradasesaidas' => $entradasEsaidas[4]
+        // ]);
+
+        return view('produtos.index');
     }
 
     public function produtosPorCategorias()
