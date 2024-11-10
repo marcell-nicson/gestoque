@@ -31,6 +31,6 @@ class ProdutoCriado implements ShouldQueue
      */
     public function broadcastOn()
     {
-        return new Channel('channel-name');
+        // return new Channel('channel-name');
     }
 }

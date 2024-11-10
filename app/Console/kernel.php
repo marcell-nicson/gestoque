@@ -9,9 +9,11 @@ class Kernel extends ConsoleKernel
 {
     protected function schedule(Schedule $schedule)
     {
-        $schedule->command('envio:produtos-apimercadolivre')->everyFiveMinutes();
-    }
+        // $schedule->command('envio:produtos-apimercadolivre')->everyFiveMinutes();
+        //A cada uma hora
+        $schedule->command('app:enviar-produto-pendente')->hourly();
 
+    }
     protected function commands()
     {
         $this->load(__DIR__.'/Commands');

@@ -12,6 +12,7 @@ class OfertaService
         $valor = intval(str_replace(['.', ','], ['', '.'], $data['valor']) * 100);
         $data['valor'] = $valor;
         $data['tipo'] = 'afiliado';
+        $data['status'] = 'pendente';
 
         if (isset($data['image'])) {
             $foto = $data['image'];

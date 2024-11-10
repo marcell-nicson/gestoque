@@ -67,7 +67,7 @@ class OfertaController extends Controller
                 //     }
                 //     sleep(4);
                 // }            
-                event(new ProdutoCriado($produto));
+                // event(new ProdutoCriado($produto));
             }
             
     
