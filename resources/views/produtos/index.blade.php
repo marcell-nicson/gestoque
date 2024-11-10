@@ -64,6 +64,7 @@
                                     <th scope="col" class="px-6 py-3 text-center">Quantidade</th>
                                     <th scope="col" class="px-6 py-3 text-center">Preço</th>
                                     <th scope="col" class="px-6 py-3 text-center">Promoção</th>
+                                    <th scope="col" class="px-6 py-3 text-center">Status</th> 
                                     <th scope="col" class="px-6 py-3"></th>
                                     <th scope="col" class="px-6 py-3"></th>
                                     <th scope="col" class="px-8 py-3"></th>
@@ -100,6 +101,15 @@
                                                     <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="m1 1 6 6m0 0 6 6M7 7l6-6M7 7l-6 6"/>
                                                 </svg>
                                             @endif                                                                                      
+                                        </td>
+                                        <td class="px-6 py-3 text-center">
+                                            @if ($produto->status === 'pendente')
+                                                <span class="text-red-500">{{ ucfirst($produto->status) }}</span>
+                                            @elseif ($produto->status === 'enviado')
+                                                <span class="text-green-500">{{ ucfirst($produto->status) }}</span>
+                                            @else
+                                                <span>{{ ucfirst($produto->status) ?? 'Sem Status' }}</span>
+                                            @endif
                                         </td>
                                         <td  class="w-4 px-1 py-2 text-center">
                                             @if ($produto->tipo == 'afiliado')
