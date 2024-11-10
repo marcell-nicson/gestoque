@@ -22,7 +22,7 @@ Route::get('/', function () {
 Route::get('/ofertas', [OfertaController::class, 'index'])->name('ofertas.index');
 Route::get('ofertas/{id}', [OfertaController::class, 'show'])->name('ofertas.show'); 
 
-Route::get('/dashboard', [DashboardController::class, 'index'])
+Route::get('/dashboard', [ProdutoController::class, 'index']) //retorna a listagem de produtos por enquanto
 ->middleware(['auth', 'verified'])->name('dashboard.index');
 
 Route::middleware('auth')->group(function () {
