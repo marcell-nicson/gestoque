@@ -8,8 +8,8 @@ use Illuminate\Support\Facades\Log;
 class EvolutionApi
 {
 
-    protected $baseUrl = 'http://165.22.185.250:8080';
-    protected $apikey = '105B2BDC82A3-4474-AE70-9056997ABEA1';
+    protected $baseUrl = 'http://evolution.redstore.com.br';
+    protected $apikey = 'B9EE9D2F970D-498E-9027-46ACAC66E483';
     protected $instance = 'GestoqueWpp';
     protected $description = 'Bem-vindo ao G-Ofertas!
 
@@ -68,7 +68,7 @@ class EvolutionApi
         ]); 
 
         $resposta = json_decode($response->body(), true);
-
+        info($resposta);
         // Coletar os IDs dos grupos
         $groupIds = array_map(function($group) {
             return $group['id'];
