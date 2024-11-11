@@ -11,7 +11,7 @@ class Kernel extends ConsoleKernel
     {
         // $schedule->command('envio:produtos-apimercadolivre')->everyFiveMinutes();
         //A cada uma hora
-        $schedule->command('app:enviar-produto-pendente')->everyTwoMinutes();
+        $schedule->command('app:enviar-produto-pendente')->everyMinute();
 
     }
     protected function commands()
