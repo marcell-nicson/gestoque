@@ -13,33 +13,13 @@ use Illuminate\Queue\InteractsWithQueue;
 
 class EnviarProdutoPendente extends Command
 {
-    use InteractsWithQueue;
-
-    /**
-     * The name and signature of the console command.
-     *
-     * @var string
-     */
-    protected $signature = 'app:enviar-produto-pendente';
-
-    /**
-     * The console command description.
-     *
-     * @var string
-     */
+    protected $signature = 'enviar:enviar-produto-pendente';
     protected $description = 'Envia um produto pendente para os grupos a cada 60 minutos';
 
     protected $evolutionApi;
     protected $ofertaService;
     protected $grupo;
 
-    /**
-     * Cria uma nova instância do comando.
-     *
-     * @param EvolutionApi $evolutionApi
-     * @param OfertaService $ofertaService
-     * @param Grupo $grupo
-     */
     public function __construct(EvolutionApi $evolutionApi, OfertaService $ofertaService, Grupo $grupo)
     {
         parent::__construct();
