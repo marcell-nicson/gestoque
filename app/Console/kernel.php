@@ -17,8 +17,9 @@ class Kernel extends ConsoleKernel
      */
 
     protected $commands = [
-        EnviarProdutoPendente::class
+        \App\Console\Commands\EnviarProdutoPendente::class,
     ];
+
     protected function schedule(Schedule $schedule)
     {  
         
