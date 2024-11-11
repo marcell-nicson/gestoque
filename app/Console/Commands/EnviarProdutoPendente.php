@@ -16,20 +16,6 @@ class EnviarProdutoPendente extends Command
     use InteractsWithQueue;
 
     /**
-     * O número de tentativas para o comando.
-     *
-     * @var int
-     */
-    public $tries = 3;
-
-    /**
-     * O tempo de espera entre as tentativas (em segundos).
-     *
-     * @var int
-     */
-    public $backoff = 10;
-
-    /**
      * The name and signature of the console command.
      *
      * @var string
@@ -87,6 +73,7 @@ class EnviarProdutoPendente extends Command
            
             }
         } else {
+            Log::error('Nenhum produto pendente encontrado.');
             $this->info('Nenhum produto pendente encontrado.');
         }
     }
