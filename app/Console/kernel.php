@@ -4,6 +4,7 @@ namespace App\Console;
 
 use Illuminate\Console\Scheduling\Schedule;
 use Illuminate\Foundation\Console\Kernel as ConsoleKernel;
+use Illuminate\Support\Facades\Log;
 
 class Kernel extends ConsoleKernel
 {
@@ -12,6 +13,9 @@ class Kernel extends ConsoleKernel
         // $schedule->command('envio:produtos-apimercadolivre')->everyFiveMinutes();
         //A cada uma hora
         $schedule->command('app:enviar-produto-pendente')->everyMinute();
+
+        Log::info("Comando agendado app:enviar-produto-pendente executado pelo schedule.");
+
 
     }
     protected function commands()
