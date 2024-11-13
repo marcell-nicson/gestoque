@@ -10,4 +10,4 @@ use Illuminate\Support\Facades\Artisan;
 //     $this->comment(Inspiring::quote());
 // })->purpose('Display an inspiring quote');
 
-Schedule::command('enviar:enviar-produto-pendente')->hourly();
+Schedule::command('enviar:enviar-produto-pendente')->everyFiveMinutes();
