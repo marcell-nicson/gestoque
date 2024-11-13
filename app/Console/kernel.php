@@ -22,9 +22,7 @@ class Kernel extends ConsoleKernel
 
     protected function schedule(Schedule $schedule)
     {  
-        $schedule->command('app:enviar-produto-pendente')->everyMinute()->before(function () {
-            Log::info("O comando app:enviar-produto-pendente está prestes a ser executado.");
-        });
+     
         
     }
     /**
