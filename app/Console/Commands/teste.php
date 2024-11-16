@@ -44,87 +44,18 @@ class teste extends Command
     public function handle()
     {
 
-
-
         try {
-            $service = new MercadoLivreApi();
-
-
-
-            $app_id = '4086879977097318';
-            $client_secret = 'y0T5Qs1BA6tKZLwkzk0psVEmrWBJ5VEe';
-            $url_principal = 'https://api.mercadolibre.com/oauth/token';
-
-            $data = [
-                'grant_type' => 'refresh_token',
-                'client_id' => $app_id,
-                'client_secret' => $client_secret,
-                'refresh_token' => 'TG-67017ec1e418f5000186632a-130970326',
-            ];
+            
+            $produtos = Produto::where('status', 'enviado')
+            ->where('created_at', '>=', Carbon::now()->subDays(4))
+            ->get();
     
-            $response = Http::asForm()->post($url_principal, $data);
-            $resposta = $response->json();
+            foreach ($produtos as $produto) {
+                $produto->status = 'pendente';
+                $produto->save();
 
-            $refresh_token_key = 'ml_refresh_token'; 
-            $access_token_key = 'ml_access_token';  
-            $expires_at_key = 'ml_token_expires_at'; 
-
-            $expires_in = $resposta['expires_in'];
-            $new_refresh_token = $resposta['refresh_token'];
-            $access_token = $resposta['access_token'];
-            $token_expires_at = Carbon::now()->addSeconds($expires_in);
-
-            $access_token_key = Redis::setex($access_token_key, $expires_in, $access_token);
-            $refresh_token_key = Redis::setex($refresh_token_key, $expires_in, $new_refresh_token);
-            $expires_at_key = Redis::setex($expires_at_key, $expires_in, $token_expires_at->toISOString());
-
-            $this->info($access_token_key);
-            $this->info($refresh_token_key);
-            $this->info($expires_at_key);
-            // $service = new MercadoLivreApi();
-            // $ofertaService = new OfertaService();
-            // $evolutionApi = new EvolutionApi();
-      
-                      
-
-            //     $jsonResponse = $service->getOfertas();
-            //     $json = $jsonResponse->getData(true);        
- 
-            
-            //     $filtradas = [];
-            //     foreach ($json['results'] as $result) {
-            //         $filtradas[] = [
-            //             'id' => $result['id'],
-            //             'nome' => $result['title'],
-            //             'category_id' => $result['category_id'],
-            //             'thumbnail' => $result['thumbnail'],
-            //             'valor' => $result['price'],
-            //             'original_price' => $result['original_price'],
-            //             'image' => 'http://http2.mlstatic.com/D_NQ_NP_' . $result['thumbnail_id'] . '-O.webp'
-            //         ];
-
-            //         $criado = $ofertaService->storeOferta($filtradas);
-            //         $mensagem = $ofertaService->formatMessage($criado);
-                    
-            //         $grupos = Grupo::all();
-
-            //         foreach ($grupos as $grupo) {
-            //             try {
-                            
-            //                 $resposta = $evolutionApi->sendText($grupo->grupo_id, $mensagem);
-            //                 info($resposta);
-            //                 dd($resposta);
-            //             } catch (Exception $e) {
-            //                 Log::error("Falha ao enviar mensagem para o grupo {$grupo->grupo_id}: " . $e->getMessage());
-                            
-            //                 break; 
-            //             }
-            //             sleep(4);
-            //         }  
-            //     }            
-          
-                // event(new ProdutoCriado($produto));
-            
+                $this->info($produto->id);
+            }
             
             
         } catch (Exception $e) {
