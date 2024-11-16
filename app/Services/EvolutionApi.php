@@ -9,7 +9,7 @@ class EvolutionApi
 {
 
     protected $baseUrl = 'http://evolution.redstore.com.br';
-    protected $apikey = 'B9EE9D2F970D-498E-9027-46ACAC66E483';
+    protected $apikey = 'AB69DC264957-4F51-9038-632F34A84076';
     protected $instance = 'GestoqueWpp';
     protected $description = 'Bem-vindo ao G-Ofertas!
 
