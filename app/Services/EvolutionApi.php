@@ -8,7 +8,7 @@ use Illuminate\Support\Facades\Log;
 class EvolutionApi
 {
 
-    protected $baseUrl = 'http://evolution.redpay.com.br/';
+    protected $baseUrl = 'http://evolution.redpay.com.br';
     protected $apikey = 'AB69DC264957-4F51-9038-632F34A84076';
     protected $instance = 'GestoqueWpp';
     protected $description = 'Bem-vindo ao G-Ofertas!
