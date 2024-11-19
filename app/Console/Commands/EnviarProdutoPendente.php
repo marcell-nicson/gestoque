@@ -44,7 +44,7 @@ class EnviarProdutoPendente extends Command
                 }else{
                     $produto->status = 'enviado';
                     $produto->save();
-                }                  
+                }
                
           
             } catch (Exception $e) {
