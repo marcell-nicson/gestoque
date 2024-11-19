@@ -197,7 +197,11 @@
                                                 <input type="text" name="nome" id="nome" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500" placeholder="Nome do Produto" required>
                                             </div>
                                             <div>
-                                                <label for="valor" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Valor</label>
+                                                <label for="valor_original" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">De</label>
+                                                <input type="text" name="valor_original" id="valor_original" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500" placeholder="2.300,45" required>
+                                            </div> 
+                                            <div>
+                                                <label for="valor" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Por</label>
                                                 <input type="text" name="valor" id="valor" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500" placeholder="2.300,45" required>
                                             </div>                     
                                             <div class="sm:col-span-2">
@@ -225,7 +229,7 @@
                                 <!-- Modal header -->
                                 <div class="flex justify-between items-center p-4 border-b rounded-t dark:border-gray-600">
                                     <h3 class="text-lg font-semibold text-gray-900 dark:text-white">
-                                        Nova Oferta
+                                        Novo Grupo
                                     </h3>                                
                                     <button type="button" class="absolute top-3 end-2.5 text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm w-8 h-8 ms-auto inline-flex justify-center items-center dark:hover:bg-gray-600 dark:hover:text-white" 
                                         data-modal-toggle="createGrupo">
