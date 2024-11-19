@@ -40,21 +40,17 @@ class EnviarProdutoPendente extends Command
                 $grupos = $this->grupo->allgroups();
                 
                 if(!$this->enviarProduto($produto, $grupos)){
-                    Log::error('Erro ao enviar produto: ' . $produto->id);
-                }
-
-                $produto->status = 'enviado';
-                $produto->save();
-    
-                $this->info('Produto enviado com sucesso');
+                    Log::error('Erro ao enviar produto: ' . $produto->id . ' - ' . $produto->nome);
+                }else{
+                    $produto->status = 'enviado';
+                    $produto->save();
+                }                  
+               
           
             } catch (Exception $e) {
                 Log::error('Erro ao enviar produto: ' . $e->getMessage());
            
             }
-        } else {
-            Log::error('Nenhum produto pendente encontrado.');
-            $this->info('Nenhum produto pendente encontrado.');
         }
     }
     /**
