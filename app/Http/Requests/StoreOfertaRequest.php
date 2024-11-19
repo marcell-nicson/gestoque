@@ -17,6 +17,7 @@ class StoreOfertaRequest extends FormRequest
             'nome' => 'required|string|max:255',
             'promocao' => 'nullable',
             'descricao' => 'nullable|string',
+            'valor_original' => 'nullable',
             'valor' => 'required|string',
             'codigo_produto' => 'nullable|string',
             'categoria_id' => 'nullable|integer',

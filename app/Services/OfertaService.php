@@ -9,35 +9,65 @@ class OfertaService
 {
     public function storeOferta(array $data)
     {
-        $valor = intval(str_replace(['.', ','], ['', '.'], $data['valor']) * 100);
-        $data['valor'] = $valor;
-        $data['tipo'] = 'afiliado';
-        $data['status'] = 'pendente';
-
-        if (isset($data['image'])) {
-            $foto = $data['image'];
-            $nomeFoto = time() . '.' . $foto->getClientOriginalExtension();
-            $foto->move(public_path('images'), $nomeFoto);
-            $data['image'] = $nomeFoto; 
-        }
-
+        $data = $this->prepareData($data);
         return Produto::create($data);
+    }
+    
+    private function prepareData(array $data): array
+    {
+        return [
+            'valor_original' => $this->formatValue($data['valor_original'] ?? 0),
+            'valor' => $this->formatValue($data['valor'] ?? 0),
+            'tipo' => 'afiliado',
+            'status' => 'pendente',
+            'nome' => $data['nome'] ?? null,
+            'descricao' => $data['descricao'] ?? null,
+            'image' => isset($data['image']) ? $this->handleImageUpload($data['image']) : null,
+        ];
+    }
+    
+    private function handleImageUpload($image): string
+    {
+        $imageName = time() . '.' . $image->getClientOriginalExtension();
+        $image->move(public_path('images'), $imageName);
+    
+        return $imageName;
+    }
+    
+    private function formatValue($value): int
+    {
+        return intval(str_replace(['.', ','], ['', '.'], $value) * 100);
     }
 
     public function formatMessage(array $produto)
-    {
-        $produtoData = [
-            'id' => $produto['id'],
-            'nome' => $produto['nome'],
-            'valor' => $produto['valor'],
-            'link_ofertas' => 'https://chat.whatsapp.com/ENRq8GMZHfqKxLErJoYdXX'
-        ];
+    {       
+        $valorOriginal = isset($produto['valor_original']) 
+            ? 'De: ~' . number_format($produto['valor_original'] / 100, 2, ',', '.') . '~' 
+            : null;
 
-        return '*' . $produtoData['nome'] . "*\n\n" .                            
-               'por ' . number_format($produtoData['valor'] / 100, 2, ',', '.') . " 🔥\n\n" .                            
-               "🛒 Link de compra:\n" . route('ofertas.show', $produtoData['id']) . "\n\n" .
-               "📲 Link do grupo de ofertas:\n" . $produtoData['link_ofertas'];
+        $valor = 'por: ' . number_format($produto['valor'] / 100, 2, ',', '.') . " 🔥";
+        $descricao = isset($produto['descricao']) 
+            ? $produto['descricao'] 
+            : '';
+
+        $linkCompra = "🛒 Link de compra:\n" . route('ofertas.show', $produto['id']);
+        $linkGrupo = "📲 Link do grupo de ofertas:\nhttps://chat.whatsapp.com/ENRq8GMZHfqKxLErJoYdXX";
+       
+        $message = '*' . $produto['nome'] . "*\n\n";
+
+        if ($valorOriginal) {
+            $message .= $valorOriginal . "\n";
+        }
+
+        $message .= $valor . "\n\n";
+        $message .= $descricao ? $descricao . "\n\n" : '';
+        $message .= $linkCompra . "\n\n";
+        $message .= $linkGrupo;
+
+        return $message;
     }
+
+
 
     public function sendText($grupoId, $mensagem)
     {

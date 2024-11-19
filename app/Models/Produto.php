@@ -13,6 +13,7 @@ class Produto extends Model
         'nome',
         'status',
         'marca',
+        'valor_original',
         'valor',
         'promocao',
         'descricao',
