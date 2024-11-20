@@ -41,10 +41,10 @@ class EnviarProdutoPendente extends Command
                 
                 if(!$this->enviarProduto($produto, $grupos)){
                     Log::error('Erro ao enviar produto: ' . $produto->id . ' - ' . $produto->nome);
-                }else{
-                    $produto->status = 'enviado';
-                    $produto->save();
                 }
+
+                $produto->status = 'enviado';
+                $produto->save();               
                
           
             } catch (Exception $e) {

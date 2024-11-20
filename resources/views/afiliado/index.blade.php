@@ -192,7 +192,7 @@
                                     <form action="{{ route('ofertas.storeOferta') }}" method="POST" enctype="multipart/form-data">
                                         @csrf
                                         <div class="grid gap-4 mb-4 sm:grid-cols-2">
-                                            <div>
+                                            <div class="sm:col-span-2">
                                                 <label for="nome" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Nome</label>
                                                 <input type="text" name="nome" id="nome" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500" placeholder="Nome do Produto" required>
                                             </div>
