@@ -16,11 +16,13 @@ class OfertaService
     private function prepareData(array $data): array
     {
         return [
+            'nome' => $data['nome'] ?? null,
+            'status' => 'pendente',
             'valor_original' => $this->formatValue($data['valor_original'] ?? 0),
             'valor' => $this->formatValue($data['valor'] ?? 0),
             'tipo' => 'afiliado',
-            'status' => 'pendente',
-            'nome' => $data['nome'] ?? null,
+            'link' => $data['link'] ?? null,
+            'categoria_id' => $data['categoria_id'] ?? null,
             'descricao' => $data['descricao'] ?? null,
             'image' => isset($data['image']) ? $this->handleImageUpload($data['image']) : null,
         ];
@@ -42,7 +44,7 @@ class OfertaService
     public function formatMessage(array $produto)
     {       
         $valorOriginal = isset($produto['valor_original']) 
-            ? 'De: ~' . number_format($produto['valor_original'] / 100, 2, ',', '.') . '~' 
+            ? 'de: ~' . number_format($produto['valor_original'] / 100, 2, ',', '.') . '~' 
             : null;
 
         $valor = 'por: ' . number_format($produto['valor'] / 100, 2, ',', '.') . " 🔥";
