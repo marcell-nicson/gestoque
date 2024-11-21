@@ -54,6 +54,11 @@
                                     há cerca de {{ $produto->created_at->setTimezone('America/Sao_Paulo')->diffForHumans() }}
 
                                 </div>
+
+                                @if (Auth::user() && Auth::user()->name == "Marcell")                                    
+                                    @dump($produto->getAttributes());                                    
+                                @endif
+
                                 <div class="mt-3 text-gray-400">                         
                                     <p class="text-center font-light text-gray-500 dark:text-gray-400">O preço e disponibilidade do produto podem variar, pois as ofertas são por tempo limitado.</p>
                                 </div>
