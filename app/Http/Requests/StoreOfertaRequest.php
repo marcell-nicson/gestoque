@@ -10,7 +10,6 @@ class StoreOfertaRequest extends FormRequest
     {
         return true;
     }
-
     public function rules()
     {
         return [
@@ -26,5 +25,13 @@ class StoreOfertaRequest extends FormRequest
             'marca_id' => 'nullable|integer',
             'image' => 'nullable|image|max:2048',
         ];
+    }
+
+    protected function prepareForValidation()
+    {
+        $this->merge([
+            'valor' => $this->valor ? str_replace(' ', '', $this->valor) : null,
+            'valor_original' => $this->valor_original ? str_replace(' ', '', $this->valor_original) : null,
+        ]);
     }
 }
