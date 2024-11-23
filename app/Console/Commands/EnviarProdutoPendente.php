@@ -33,7 +33,8 @@ class EnviarProdutoPendente extends Command
      */
     public function handle()
     {
-        $produto = Produto::where('status', 'pendente')->first();
+
+        $produto = Produto::where('status', 'pendente')->where('link', 'like', '%amzn%')->first();
 
         if ($produto) {
             try {
