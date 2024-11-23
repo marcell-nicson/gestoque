@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\StoreProdutoRequest;
 use App\Models\Categoria;
 use App\Models\Entrada;
 use App\Models\Grupo;
@@ -10,82 +11,46 @@ use App\Models\Produto;
 use App\Models\Saida;
 use App\Services\EvolutionApi;
 use App\Services\OfertaService;
+use App\Services\ProdutoService;
 use App\Services\Uzapi;
 use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
 use Illuminate\Support\Facades\Log;
 
+use function App\Helpers\pluck;
+
 class ProdutoController extends Controller
 {
+    protected $service;
+    protected $model;
 
-    // Listar produtos
-    public function index(Request $request)
+    public function __construct(Produto $model, ProdutoService $service)
     {
-        
-        $categorias = Categoria::pluck('nome', 'id');       
-        $marcas = Marca::pluck('nome', 'id');
-    
-        if ($request->filled('search')) {
-            $query = Produto::with(['categoria', 'marca']);
-            $searchTerms = explode(' ', $request->search);
-            
-            foreach ($searchTerms as $term) {
-                $query->where(function($q) use ($term) {
-                    $q->where('nome', 'like', '%' . $term . '%')
-                      ->orWhereHas('categoria', function($q) use ($term) {
-                          $q->where('nome', 'like', '%' . $term . '%');
-                      })
-                      ->orWhereHas('marca', function($q) use ($term) {
-                          $q->where('nome', 'like', '%' . $term . '%');
-                      });
-                });
-            }            
-            $produtos = $query->get();
-
-            return view('produtos.index', compact('produtos', 'categorias', 'marcas'));
-        }      
-
-        $produtos = Produto::listadeprodutos(); 
-        return view('produtos.index', compact('produtos', 'categorias', 'marcas'));
+        $this->service = $service;
+        $this->model = $model;
     }
-    
+
+    public function index(Request $request)
+    {       
+        $dados = $this->service->index($request, $this->model);
+        return view('produtos.index', $dados);
+    }    
  
-    public function store(Request $request)
+    public function store(StoreProdutoRequest $request)
     {
         try {
+            $result = $this->service->store($request->all());
 
-
-            $validatedData = $request->validate([
-                'nome' => 'required|string|max:255',
-                'promocao' => 'nullable' ?? 0,
-                'descricao' => 'nullable',
-                'valor' => 'nullable',
-                'codigo_produto' => 'nullable',
-                'categoria_id' => 'nullable',
-                'tipo' => 'nullable',
-                'link' => 'nullable',
-                'marca_id' => 'nullable'
-            ]);
-
-            $data = $validatedData;
-
-            if($request->file('image'))
-            {
-                $foto = $request->file('image');
-                $nomeFoto = time() . '.' . $foto->getClientOriginalExtension();
-                $foto->move(public_path('images'), $nomeFoto);
-                $da['image'] = $nomeFoto; 
-    
-                $data = array_merge($validatedData, $da);
-            }    
-        
-            Produto::create($data);
-            return redirect()->route('produtos.index')->with('success', 'Produto criado com sucesso.');
+            return redirect()
+                ->route('produtos.index')
+                ->with($result['status'], $result['message']);
 
         } catch (Exception $e) {
             info($e);
-            return redirect()->route('produtos.index')->with('danger', 'Erro ao Criar Produto');
+            return redirect()
+                ->route('produtos.index')
+                ->with('danger', $e->getMessage());
 
         }
 
@@ -103,7 +68,7 @@ class ProdutoController extends Controller
     // Formulário para editar produto
     public function edit($id)
     {
-        $produtos = Produto::all();
+        $produtos = $this->model::all();
        
         return view('produtos.index', compact('produtos'));
     }
@@ -138,7 +103,7 @@ class ProdutoController extends Controller
             }
 
     
-            $pro = Produto::whereId($id)->update($data);
+            $pro = $this->model::whereId($id)->update($data);
             return redirect()->route('produtos.index')->with('success', 'Produto atualizado com sucesso.');
 
         } catch (Exception $e) {
@@ -152,7 +117,7 @@ class ProdutoController extends Controller
     // Excluir produto
     public function destroy($id)
     {
-        $produto = Produto::findOrFail($id);
+        $produto = $this->model::findOrFail($id);
         $produto->delete();
         return redirect()->route('produtos.index')->with('success', 'Produto excluído com sucesso.');
     }
@@ -174,7 +139,7 @@ class ProdutoController extends Controller
 
     public function reenviar($id)
     {
-        $produto = Produto::findOrFail($id);
+        $produto = $this->model::findOrFail($id);
         
         $grupos = Grupo::all();
         $evolutionApi = new EvolutionApi();

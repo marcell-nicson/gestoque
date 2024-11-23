@@ -189,7 +189,7 @@
                                 </div>
                                 <!-- Modal body -->
                                 <div class="p-6">
-                                    <form action="{{ route('ofertas.storeOferta') }}" method="POST" enctype="multipart/form-data">
+                                    <form action="{{ route('produtos.store') }}" method="POST" enctype="multipart/form-data">
                                         @csrf
                                         <div class="grid gap-4 mb-4 sm:grid-cols-2">
                                             <div class="sm:col-span-2">

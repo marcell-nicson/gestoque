@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Events\ProdutoCriado;
 use App\Http\Requests\StoreOfertaRequest;
+use App\Http\Requests\StoreProdutoRequest;
 use App\Models\Grupo;
 use App\Models\Produto;
 use App\Services\EvolutionApi;
@@ -36,7 +37,7 @@ class OfertaController extends Controller
 
     }
 
-    public function storeOferta(StoreOfertaRequest $request)
+    public function storeOferta(StoreProdutoRequest $request)
     {
         try {
             
