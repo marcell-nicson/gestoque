@@ -63,9 +63,14 @@ class EnviarProdutoPendente extends Command
     protected function enviarProduto($produto, $grupos)
     {
         $mensagem = $this->service->formatMessage($produto->toArray());
-
+    
         foreach ($grupos as $grupo) {
-            $this->evolutionApi->sendText($grupo->grupo_id, $mensagem);
+
+            $regra = $grupo->nome == 'geral' || $produto->categoria_id === null;
+            
+            if ($regra || $produto->categoria_id == $grupo->categoria_id) {
+                $this->evolutionApi->sendText($grupo->grupo_id, $mensagem);
+            }
         }
     }
 }

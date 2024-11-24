@@ -9,9 +9,20 @@ class Grupo extends Model
 {
     use HasFactory;
 
+    protected $fillable = [
+        'nome', 
+        'grupo_id', 
+        'descricao',
+        'categoria_id'
+    ];
 
     public function allgroups()
     {
         return $this->all();
+    }
+
+    public function categoria()
+    {
+        return $this->belongsTo(Categoria::class);
     }
 }

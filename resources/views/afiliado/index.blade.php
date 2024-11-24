@@ -230,7 +230,7 @@
                                 <div class="flex justify-between items-center p-4 border-b rounded-t dark:border-gray-600">
                                     <h3 class="text-lg font-semibold text-gray-900 dark:text-white">
                                         Novo Grupo
-                                    </h3>                                
+                                    </h3>
                                     <button type="button" class="absolute top-3 end-2.5 text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm w-8 h-8 ms-auto inline-flex justify-center items-center dark:hover:bg-gray-600 dark:hover:text-white" 
                                         data-modal-toggle="createGrupo">
                                         <svg class="w-3 h-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 14 14">
@@ -244,13 +244,21 @@
                                     <form action="{{ route('grupos.store') }}" method="POST" enctype="multipart/form-data">
                                         @csrf
                                         <div class="grid gap-4 mb-4 sm:grid-cols-2">
-                                            <div>
+                                            <div class="sm:col-span-2">
                                                 <label for="nome" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Nome</label>
                                                 <input type="text" name="nome" id="nome" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500" placeholder="Nome do Grupo" required>
                                             </div>
                                             <div>
                                                 <label for="grupo_id" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Id do Grupo</label>
                                                 <input type="text" name="grupo_id" id="grupo_id" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500" placeholder="Nome do Grupo" required>
+                                            </div>
+                                            <div>                                     
+                                                <label for="categoria_id" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Categorias</label>
+                                                <x-input-select id="categoria_id" name="categoria_id" required>
+                                                    @foreach($categorias as $id => $nome)                          
+                                                        <option value="{{ $id }}" @if($id == $grupo->categoria_id) selected @endif>{{ $nome }}</option>
+                                                    @endforeach
+                                                </x-input-select>
                                             </div>
                                             <div class="sm:col-span-2">
                                                 <label for="descricao" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Descricao</label>

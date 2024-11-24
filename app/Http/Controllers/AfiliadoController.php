@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Categoria;
 use App\Models\Grupo;
 use App\Services\Uzapi;
 use Exception;
@@ -11,12 +12,13 @@ class AfiliadoController extends Controller
 {
     public function index()
     {
+        $categorias = Categoria::pluck('nome', 'id');
 
         $grupos = Grupo::all();
 
         $selectgrupos = $grupos->pluck('nome', 'id');
         
-        return view('afiliado.index', compact('grupos', 'selectgrupos'));
+        return view('afiliado.index', compact('grupos', 'selectgrupos', 'categorias'));
 
     }
 
