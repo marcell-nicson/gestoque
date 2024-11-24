@@ -35,12 +35,12 @@
                             </svg>                              
                             {{ __('Categoria') }}                                                      
                         </button>                        
-                        <button data-modal-target="createProductModal" data-modal-toggle="createProductModal" icon="fa-solid fa-magnifying-glass mr-2" class="'w-full md:w-auto flex items-center justify-center py-2 px-4 text-sm font-medium text-gray-900 focus:outline-none bg-white rounded-lg border border-gray-200 hover:bg-gray-100 hover:text-primary-700 focus:z-10 focus:ring-4 focus:ring-gray-200 dark:focus:ring-gray-700 dark:bg-gray-800 dark:text-gray-400 dark:border-gray-600 dark:hover:text-white dark:hover:bg-gray-700'">
+                        <!-- <button data-modal-target="createProductModal" data-modal-toggle="createProductModal" icon="fa-solid fa-magnifying-glass mr-2" class="'w-full md:w-auto flex items-center justify-center py-2 px-4 text-sm font-medium text-gray-900 focus:outline-none bg-white rounded-lg border border-gray-200 hover:bg-gray-100 hover:text-primary-700 focus:z-10 focus:ring-4 focus:ring-gray-200 dark:focus:ring-gray-700 dark:bg-gray-800 dark:text-gray-400 dark:border-gray-600 dark:hover:text-white dark:hover:bg-gray-700'">
                             <svg class="w-[20px] h-[20px] mr-2 text-gray-800 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
                                 <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 7.757v8.486M7.757 12h8.486M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z"/>
                             </svg>  
                             {{ __('Produto') }}
-                        </button>
+                        </button> -->
                         <button data-modal-target="createOferta" data-modal-toggle="createOferta" icon="fa-solid fa-magnifying-glass mr-2" class="'w-full md:w-auto flex items-center justify-center py-2 px-4 text-sm font-medium text-gray-900 focus:outline-none bg-white rounded-lg border border-gray-200 hover:bg-gray-100 hover:text-primary-700 focus:z-10 focus:ring-4 focus:ring-gray-200 dark:focus:ring-gray-700 dark:bg-gray-800 dark:text-gray-400 dark:border-gray-600 dark:hover:text-white dark:hover:bg-gray-700'">
                             <svg class="w-[20px] h-[20px] mr-2 text-gray-800 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
                                 <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 7.757v8.486M7.757 12h8.486M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z"/>
@@ -193,7 +193,7 @@
                                                             </div>
                                                             <div>                                     
                                                                 <label for="categoria_id" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Categorias</label>
-                                                                <x-input-select id="categoria_id" name="categoria_id" required>
+                                                                <x-input-select id="categoria_id" name="categoria_id">
                                                                     @foreach($categorias as $id => $nome)                          
                                                                         <option value="{{ $id }}" @if($id == $produto->categoria_id) selected @endif>{{ $nome }}</option>
                                                                     @endforeach
@@ -201,7 +201,7 @@
                                                             </div>
                                                             <div>
                                                                 <label for="marca_id" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Marcas</label>
-                                                                <x-input-select id="marca_id" name="marca_id" required>
+                                                                <x-input-select id="marca_id" name="marca_id">
                                                                     @foreach($marcas as $id => $nome)
                                                                         <option value="{{ $id }}" @if($id == $produto->marca_id) selected @endif>{{ $nome }}</option>
                                                                     @endforeach
@@ -209,7 +209,7 @@
                                                             </div>
                                                             <div>
                                                                 <label for="codigo_produto" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Codigo do Produto</label>
-                                                                <input type="number" name="codigo_produto" id="codigo_produto" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500" value="{{ $produto->codigo_produto }}" required>
+                                                                <input type="number" name="codigo_produto" id="codigo_produto" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500" value="{{ $produto->codigo_produto }}">
                                                             </div>
                                                             <div class="sm:col-span-2">
                                                                 <label for="image" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Foto do Produto</label>
@@ -312,7 +312,7 @@
                                         </div>
                                         <div>                                       
                                             <label for="categoria_id" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Categorias</label>
-                                            <x-input-select id="categoria_id" name="categoria_id" required>
+                                            <x-input-select id="categoria_id" name="categoria_id">
                                                 @foreach($categorias as $id => $nome)                          
                                                     <option value="{{ $id }}">{{ $nome }}</option>
                                                 @endforeach
@@ -320,7 +320,7 @@
                                         </div>
                                         <div>
                                             <label for="marca_id" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Marcas</label>
-                                            <x-input-select id="marca_id" name="marca_id" required>
+                                            <x-input-select id="marca_id" name="marca_id">
                                                 @foreach($marcas as $id => $nome)
                                                     <option value="{{ $id }}">{{ $nome }}</option>
                                                 @endforeach
@@ -456,6 +456,33 @@
                                         <div>
                                             <label for="valor" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Por</label>
                                             <input type="text" name="valor" id="valor" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500" placeholder="1.999" required>
+                                        </div>                                        
+                                        <div>                                     
+                                            <label for="categoria_id" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Categorias</label>
+                                            <x-input-select id="categoria_id" name="categoria_id">
+                                                @foreach($categorias as $id => $nome)                          
+                                                    <option value="{{ $id }}" @if($id == $produto->categoria_id) selected @endif>{{ $nome }}</option>
+                                                @endforeach
+                                            </x-input-select>
+                                        </div>
+                                        <div>
+                                            <label for="marca_id" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Marcas</label>
+                                            <x-input-select id="marca_id" name="marca_id">
+                                                @foreach($marcas as $id => $nome)
+                                                    <option value="{{ $id }}" @if($id == $produto->marca_id) selected @endif>{{ $nome }}</option>
+                                                @endforeach
+                                            </x-input-select>
+                                        </div>
+                                        <div>                                     
+                                            <label for="tipo" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Tipo</label>
+                                            <x-input-select id="tipo" name="tipo" required>
+                                                    <option selected>afiliado</option>
+                                                    <option value="option-1">estoque</option>
+                                            </x-input-select>
+                                        </div>
+                                        <div>
+                                            <label for="codigo_produto" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Codigo do Produto</label>
+                                            <input type="number" name="codigo_produto" id="codigo_produto" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500" value="{{ $produto->codigo_produto }}">
                                         </div>
                                         <div class="sm:col-span-2">
                                             <label for="image" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Foto do Produto</label>
