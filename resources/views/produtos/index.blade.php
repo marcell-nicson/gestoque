@@ -7,13 +7,21 @@
     </x-slot>
 
     <div class="py-8">
-        <div class="max-w-7xl mx-auto sm:px-6 lg:px-8"> 
+        <div class="max-w-8xl mx-auto sm:px-6 lg:px-8"> 
             <div class="bg-white dark:bg-gray-800 relative shadow-md sm:rounded-lg overflow-hidden">
                 <div class="flex flex-col md:flex-row items-center justify-between space-y-3 md:space-y-0 md:space-x-4 p-4">
                     <div class="w-full md:w-1/2">
                         <x-filter :action="route('produtos.index')" :filterFields="['name', 'category', 'brand']" />
-
+                        
                     </div>
+                    @if(count($produtos) > 0)
+                        <div class="w-full md:w-auto flex flex-col md:flex-row space-y-2 md:space-y-0 items-stretch md:items-center justify-end md:space-x-3 flex-shrink-0">
+                            <h4 class="font-semibold text-gray-800 dark:text-white">Produtos Pendentes:
+                                Amazon: <a class="text-red-500">{{ $quantidadeAmazonPendente }}</a> /
+                                Mercado Livre: <a class="text-red-500">{{ $quantidadeMercadoLivrePendente }}</a>
+                            </h4>
+                        </div>
+                    @endif
                     <div class="w-full md:w-auto flex flex-col md:flex-row space-y-2 md:space-y-0 items-stretch md:items-center justify-end md:space-x-3 flex-shrink-0">
                         <button data-modal-target="ModalMarca" data-modal-toggle="ModalMarca" class="'w-full md:w-auto flex items-center justify-center py-2 px-4 text-sm font-medium text-gray-900 focus:outline-none bg-white rounded-lg border border-gray-200 hover:bg-gray-100 hover:text-primary-700 focus:z-10 focus:ring-4 focus:ring-gray-200 dark:focus:ring-gray-700 dark:bg-gray-800 dark:text-gray-400 dark:border-gray-600 dark:hover:text-white dark:hover:bg-gray-700'" type="button">
                             <svg class="w-[20px] h-[20px] mr-2 text-gray-800 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
@@ -62,7 +70,8 @@
                                     <th scope="col" class="px-6 py-3 text-center">Marca</th>
                                     <th scope="col" class="px-6 py-3 text-center">Categoria</th>
                                     <th scope="col" class="px-6 py-3 text-center">Quantidade</th>
-                                    <th scope="col" class="px-6 py-3 text-center">Preço</th>
+                                    <th scope="col" class="px-6 py-3 text-center">Valor Original</th>
+                                    <th scope="col" class="px-6 py-3 text-center">Valor</th>
                                     <th scope="col" class="px-6 py-3 text-center">Promoção</th>
                                     <th scope="col" class="px-6 py-3 text-center">Status</th> 
                                     <th scope="col" class="px-6 py-3"></th>
@@ -79,8 +88,10 @@
                                                 <label for="checkbox-{{ $produto->id }}" class="sr-only">checkbox</label>
                                             </div>
                                         </td>
-                                        <td class="px-6 py-3 text-center">
-                                            <img src="{{ asset('images/' . $produto->image)  ?  asset('images/' . $produto->image) : 'https://flowbite.s3.amazonaws.com/blocks/application-ui/products/imac-front-image.png' }}" alt="" class="w-12 h-auto rounded">
+                                        <td  class="px-6 py-3 text-center">
+                                            <a href="{{ route('ofertas.showOferta', $produto->id)  }}">
+                                                <img src="{{ asset('images/' . $produto->image)  ?  asset('images/' . $produto->image) : 'https://flowbite.s3.amazonaws.com/blocks/application-ui/products/imac-front-image.png' }}" alt="" class="w-12 h-auto rounded">
+                                            </a>
                                         </td>
                                         <td class="px-6 py-3 text-center">{{ $produto->nome ?? 'default'}}</td>
                                         <td class="px-6 py-3 text-center">
@@ -90,6 +101,7 @@
                                             <span class="bg-primary-100 text-primary-800 text-xs font-medium px-2 py-0.5 rounded dark:bg-primary-900 dark:text-primary-300">{{ $produto->categoria->nome ?? 'default' }}</span>
                                         </td>
                                         <td class="px-6 py-3 text-center">{{ $produto->quantidade() != 0 ? $produto->quantidade() : 'Sem Estoque' }}</td>
+                                        <td class="px-6 py-3 text-center">R$ {{ number_format($produto->valor_original / 100, 2, ',', '.') }}</td>
                                         <td class="px-6 py-3 text-center">R$ {{ number_format($produto->valor / 100, 2, ',', '.') }}</td>
                                         <td class="px-6 py-3 text-center"> 
                                             @if ($produto->promocao == 1)

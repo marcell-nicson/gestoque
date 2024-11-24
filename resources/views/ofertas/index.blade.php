@@ -15,7 +15,7 @@
 
                             <div class="bg-white rounded-3xl border border-gray-200 shadow-sm dark:bg-gray-800 dark:border-gray-700">
                                 <div class="flex items-center justify-center h-[288px]">
-                                    <a href="{{ route('ofertas.show', $produto->id)  }}">
+                                    <a href="{{ route('ofertas.showOferta', $produto->id)  }}">
                                         <img class="p-4 max-h-[288px] rounded-3xl" src="{{ asset('images/' . $produto->image)  ?  asset('images/' . $produto->image) : 'https://d10aktedg4flw1.cloudfront.net/offers/images/01J4KXVJ35AZ6T0XJKFM3H2FV3/01J4KXVJ35CKG8NS67WE7P402T.jpeg' }}" alt="Jese Leos">
                                     </a>
                                 </div>

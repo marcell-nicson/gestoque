@@ -5,7 +5,7 @@ namespace App\Console\Commands;
 use App\Models\Grupo;
 use App\Models\Produto;
 use App\Services\EvolutionApi;
-use App\Services\OfertaService;
+use App\Services\ProdutoService;
 use Exception;
 use Illuminate\Console\Command;
 use Illuminate\Support\Facades\Log;
@@ -17,14 +17,14 @@ class EnviarProdutoPendente extends Command
     protected $description = 'Envia um produto pendente para os grupos a cada 60 minutos';
 
     protected $evolutionApi;
-    protected $ofertaService;
+    protected $service;
     protected $grupo;
 
-    public function __construct(EvolutionApi $evolutionApi, OfertaService $ofertaService, Grupo $grupo)
+    public function __construct(EvolutionApi $evolutionApi, ProdutoService $service, Grupo $grupo)
     {
         parent::__construct();
         $this->evolutionApi = $evolutionApi;
-        $this->ofertaService = $ofertaService;
+        $this->service = $service;
         $this->grupo = $grupo;
     }
 
@@ -62,7 +62,7 @@ class EnviarProdutoPendente extends Command
      */
     protected function enviarProduto($produto, $grupos)
     {
-        $mensagem = $this->ofertaService->formatMessage($produto->toArray());
+        $mensagem = $this->service->formatMessage($produto->toArray());
 
         foreach ($grupos as $grupo) {
             $this->evolutionApi->sendText($grupo->grupo_id, $mensagem);

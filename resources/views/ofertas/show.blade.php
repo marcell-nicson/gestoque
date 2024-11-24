@@ -2,7 +2,7 @@
     <meta property="og:title" content="{{ $produto->nome }}" />
     <meta property="og:description" content="Descrição do produto" />
     <meta property="og:image" content="{{asset('images/' . $produto->image)}}" />                                                    
-    <meta property="og:url" content="{{ route('ofertas.show', $produto->id) }}" />
+    <meta property="og:url" content="{{ route('ofertas.showOferta', $produto->id) }}" />
     <meta property="og:type" content="product" />
     <meta property="og:title" content="Promoestoque" />   
     <title>PromoEstoque - {{ $produto->nome }}</title>
@@ -23,7 +23,7 @@
                 <div class="mt-1">
                     <div class="flex w-full sm:w-[320px] sm:w-[350px]">
                         <div class="bg-white rounded-3xl border border-gray-200 dark:bg-gray-800 dark:border-gray-700">                  
-                            <a href="{{ route('ofertas.show', $produto->id) }}">
+                            <a href="{{ route('ofertas.showOferta', $produto->id) }}">
                                 <img class="rounded-lg mx-auto p-4" src="{{ asset('images/' . $produto->image)  ?  asset('images/' . $produto->image) : 'https://d10aktedg4flw1.cloudfront.net/offers/images/01J4KXVJ35AZ6T0XJKFM3H2FV3/01J4KXVJ35CKG8NS67WE7P402T.jpeg' }}" alt="Jese Leos">
                             </a>
                             <div class="px-5 pb-10"> <!-- Aumente o espaço aqui -->

@@ -18,8 +18,6 @@ use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
 use Illuminate\Support\Facades\Log;
 
-use function App\Helpers\pluck;
-
 class ProdutoController extends Controller
 {
     protected $service;
@@ -35,7 +33,7 @@ class ProdutoController extends Controller
     {       
         $dados = $this->service->index($request, $this->model);
         return view('produtos.index', $dados);
-    }    
+    }
  
     public function store(StoreProdutoRequest $request)
     {
@@ -59,17 +57,26 @@ class ProdutoController extends Controller
     // Mostrar detalhes do produto
     public function show($id)
     {
-        $produto = Produto::findOrFail($id);
-        
-
+        $produto = $this->service->show($id);
         return view('produtos.show', compact('produto'));
+    }
+
+    public function ofertas()
+    {
+        $produtos = $this->service->ofertas();
+        return view('ofertas.index', compact('produtos'));
+    }
+
+    public function showOferta($id)
+    {
+        $produto = $this->service->show($id);        
+        return view('ofertas.show', compact('produto'));
     }
 
     // Formulário para editar produto
     public function edit($id)
     {
-        $produtos = $this->model::all();
-       
+        $produtos = $this->model::all();       
         return view('produtos.index', compact('produtos'));
     }
 
@@ -143,9 +150,8 @@ class ProdutoController extends Controller
         
         $grupos = Grupo::all();
         $evolutionApi = new EvolutionApi();
-        $ofertaService = new OfertaService();
 
-        $mensagem = $ofertaService->formatMessage($produto->toArray());
+        $mensagem = $this->service->formatMessage($produto->toArray());
 
         foreach ($grupos as $grupo) {
             try {

@@ -13,14 +13,15 @@ use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\SaidaController;
 use App\Http\Controllers\VendaController;
 use App\Models\Categoria;
+use App\Models\Produto;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
     return view('welcome');
 })->name('/');
 
-Route::get('/ofertas', [OfertaController::class, 'index'])->name('ofertas.index');
-Route::get('ofertas/{id}', [OfertaController::class, 'show'])->name('ofertas.show'); 
+Route::get('/ofertas', [ProdutoController::class, 'ofertas'])->name('ofertas.ofertas');
+Route::get('ofertas/{id}', [ProdutoController::class, 'showOferta'])->name('ofertas.showOferta'); 
 
 Route::get('/dashboard', [ProdutoController::class, 'index']) //retorna a listagem de produtos por enquanto
 ->middleware(['auth', 'verified'])->name('dashboard.index');
@@ -40,9 +41,6 @@ Route::middleware('auth')->group(function () {
 
         Route::post('/produtos/reenviar/{id}', [ProdutoController::class, 'reenviar'])->name('produtos.reenviar');
         
-        
-        Route::post('ofertas/storeOferta', [OfertaController::class, 'storeOferta'])->name('ofertas.storeOferta');
-
     Route::prefix('categorias')->group(function () {
         Route::get('/', [CategoriaController::class, 'index'])->name('categorias.index'); // Listar produtos
         Route::get('/create', [CategoriaController::class, 'create'])->name('categorias.create'); // Formulário para criar produto

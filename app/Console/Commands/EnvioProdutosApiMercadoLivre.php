@@ -8,6 +8,7 @@ use App\Services\OfertaService;
 use App\Services\EvolutionApi;
 use App\Models\Produto;
 use App\Models\Grupo;
+use App\Services\ProdutoService;
 use Exception;
 use Illuminate\Support\Facades\Log;
 
@@ -17,15 +18,15 @@ class EnvioProdutosApiMercadoLivre extends Command
     protected $description = 'Enviar produtos da API Mercado Livre para grupos via Evolution API a cada 5 minutos';
 
     protected $mercadoLivreApi;
-    protected $ofertaService;
+    protected $service;
     protected $evolutionApi;
 
     // Injeção de dependências via construtor
-    public function __construct(MercadoLivreApi $mercadoLivreApi, OfertaService $ofertaService, EvolutionApi $evolutionApi)
+    public function __construct(MercadoLivreApi $mercadoLivreApi, ProdutoService $service, EvolutionApi $evolutionApi)
     {
         parent::__construct();
         $this->mercadoLivreApi = $mercadoLivreApi;
-        $this->ofertaService = $ofertaService;
+        $this->service = $service;
         $this->evolutionApi = $evolutionApi;
     }
 
@@ -44,7 +45,7 @@ class EnvioProdutosApiMercadoLivre extends Command
             // Processa cada resultado de oferta
             foreach ($json['results'] as $result) {
                 $produto = $this->criarProduto($result);
-                $mensagem = $this->ofertaService->formatMessage($produto->toArray());
+                $mensagem = $this->service->formatMessage($produto->toArray());
 
                 // Envia a mensagem para todos os grupos
                 $this->enviarMensagemParaGrupos($mensagem);
