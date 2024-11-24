@@ -252,11 +252,11 @@
                                                 <label for="grupo_id" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Id do Grupo</label>
                                                 <input type="text" name="grupo_id" id="grupo_id" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500" placeholder="Nome do Grupo" required>
                                             </div>
-                                            <div>                                     
+                                            <div> 
                                                 <label for="categoria_id" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Categorias</label>
-                                                <x-input-select id="categoria_id" name="categoria_id" required>
-                                                    @foreach($categorias as $id => $nome)                          
-                                                        <option value="{{ $id }}" @if($id == $grupo->categoria_id) selected @endif>{{ $nome }}</option>
+                                                <x-input-select id="categoria_id" name="categoria_id">
+                                                    @foreach($categorias as $id => $nome)
+                                                        <option value="{{ $id }}" @if(isset($grupo) && $id == $grupo->categoria_id) selected @endif>{{ $nome }}</option>
                                                     @endforeach
                                                 </x-input-select>
                                             </div>
