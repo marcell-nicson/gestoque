@@ -17,6 +17,7 @@ class GrupoController extends Controller
          $grupo->nome = $request->nome;
          $grupo->grupo_id = $request->grupo_id;
          $grupo->descricao = $request->descricao ?? null;
+         $grupo->categoria_id = $request->categoria_id ?? null;
          $grupo->save();
    
          return redirect()->route('afiliado.index')->with('success', 'Grupo criada com sucesso.');

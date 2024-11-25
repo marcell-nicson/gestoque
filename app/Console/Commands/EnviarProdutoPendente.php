@@ -66,11 +66,28 @@ class EnviarProdutoPendente extends Command
     
         foreach ($grupos as $grupo) {
 
-            $regra = $grupo->grupo_id == '120363303397548933@g.us' && $produto->categoria_id === null;
-            
-            if ($regra || $produto->categoria_id == $grupo->categoria_id) {
-                $this->evolutionApi->sendText($grupo->grupo_id, $mensagem);
+            $grupo_geral = false;
+            $grupo_categoria = false;
+
+            if($grupo->grupo_id == '120363303397548933@g.us' && $produto->categoria_id === null){
+                $grupo_geral = true;
             }
+
+            if(isset($produto->categoria_id) && $grupo->grupo_id == '120363303397548933@g.us'){
+                $grupo_geral = true;
+            }
+            
+            if ($produto->categoria_id == $grupo->categoria_id) {
+                $grupo_categoria = true;
+            }
+
+            if ($grupo_categoria || $grupo_geral) {
+                $this->evolutionApi->sendText($grupo->grupo_id, $mensagem);
+                $produto->status = 'enviado';
+                $produto->save(); 
+            }
+            
+         
         }
     }
 }
