@@ -77,7 +77,7 @@ class EnviarProdutoPendente extends Command
                 $grupo_geral = true;
             }
             
-            if ($produto->categoria_id == $grupo->categoria_id) {
+            if (isset($produto->categoria_id) && isset($grupo->categoria_id) && $produto->categoria_id == $grupo->categoria_id) {
                 $grupo_categoria = true;
             }
 
