@@ -16,10 +16,11 @@ use App\Models\Categoria;
 use App\Models\Produto;
 use Illuminate\Support\Facades\Route;
 
-Route::get('/', function () {
+Route::get('/login', function () {
     return view('welcome');
 })->name('/');
 
+Route::get('/', [ProdutoController::class, 'ofertas'])->name('ofertas.ofertas');
 Route::get('/ofertas', [ProdutoController::class, 'ofertas'])->name('ofertas.ofertas');
 Route::get('ofertas/{id}', [ProdutoController::class, 'showOferta'])->name('ofertas.showOferta'); 
 
