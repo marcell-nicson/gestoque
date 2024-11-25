@@ -66,7 +66,7 @@ class EnviarProdutoPendente extends Command
     
         foreach ($grupos as $grupo) {
 
-            $regra = $grupo->nome == 'geral' || $produto->categoria_id === null;
+            $regra = $grupo->nome == 'geral' && $produto->categoria_id === null;
             
             if ($regra || $produto->categoria_id == $grupo->categoria_id) {
                 $this->evolutionApi->sendText($grupo->grupo_id, $mensagem);

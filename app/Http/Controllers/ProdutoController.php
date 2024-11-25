@@ -156,11 +156,10 @@ class ProdutoController extends Controller
         foreach ($grupos as $grupo) {
             try {
                 
-                $regra = $grupo->nome == 'geral' || $produto->categoria_id === null;
+                $regra = $grupo->nome == 'geral' && $produto->categoria_id === null;
             
                 if ($regra || $produto->categoria_id == $grupo->categoria_id) {
-                    $resposta = $evolutionApi->sendText($grupo->grupo_id, $mensagem);
-                    info($resposta);
+                    $evolutionApi->sendText($grupo->grupo_id, $mensagem);
                     
                     $produto->status = 'enviado';
                     $produto->save(); 
