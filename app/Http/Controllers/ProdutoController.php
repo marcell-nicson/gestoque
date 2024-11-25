@@ -146,21 +146,19 @@ class ProdutoController extends Controller
 
     public function reenviar($id)
     {
-        $produto = $this->model::findOrFail($id);
+        $produto = Produto::find($id);
         
         $grupos = Grupo::all();
         $evolutionApi = new EvolutionApi();
 
         $mensagem = $this->service->formatMessage($produto->toArray());
-
+        
         foreach ($grupos as $grupo) {
             try {
-                
-                $regra = $grupo->nome == 'geral' && $produto->categoria_id === null;
-            
+              
+                $regra = $grupo->grupo_id == '120363303397548933@g.us' && $produto->categoria_id === null;
                 if ($regra || $produto->categoria_id == $grupo->categoria_id) {
                     $evolutionApi->sendText($grupo->grupo_id, $mensagem);
-                    
                     $produto->status = 'enviado';
                     $produto->save(); 
                 }
