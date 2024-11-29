@@ -46,15 +46,10 @@ class teste extends Command
 
         try {
             
-            $produtos = Produto::where('status', 'enviado')
-            ->where('created_at', '>=', Carbon::now()->subDays(4))
-            ->get();
+            $grupos = Grupo::all();
     
-            foreach ($produtos as $produto) {
-                $produto->status = 'pendente';
-                $produto->save();
-
-                $this->info($produto->id);
+            foreach ($grupos as $grupo) {
+                $grupo->delete();
             }
             
             
