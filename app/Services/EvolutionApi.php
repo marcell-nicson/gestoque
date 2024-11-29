@@ -84,7 +84,7 @@ class EvolutionApi
         $data = [
             'number' => $number,
             'text' => $text,
-            'delay' => 5, // Atraso em milissegundos (1 segundo)
+            'delay' => 15, // Atraso em milissegundos (1 segundo)
             'linkPreview' => $linkPreview,
             'mentionsEveryOne' => $mentionsEveryOne,
         ];
@@ -107,14 +107,15 @@ class EvolutionApi
         $response = Http::withHeaders([
             'Content-Type' => 'application/json',
             'apikey' => $this->apikey,
-        ])->post($this->baseUrl . '/message/sendText/' . $this->instance, $data); 
-    
-
-        Log::info($response);
+        ])->post($this->baseUrl . '/message/sendText/' . $this->instance, $data);     
 
         $resposta = json_decode($response->body(), true);  
-     
-    
-        return $resposta; 
+
+        if($response->status() != 201){
+            Log::info($response);
+            throw new \Exception('Not possible to send message');       
+        }
+        
+        return $resposta;
     }
 }

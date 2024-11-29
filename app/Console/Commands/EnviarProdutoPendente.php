@@ -39,17 +39,15 @@ class EnviarProdutoPendente extends Command
         if ($produto) {
             try {
                 $grupos = $this->grupo->allgroups();
-                
-                if(!$this->enviarProduto($produto, $grupos)){
-                    Log::error('Erro ao enviar produto: ' . $produto->id . ' - ' . $produto->nome);
-                }
 
-                $produto->status = 'enviado';
-                $produto->save();               
-               
+                foreach ($grupos as $grupo) {
+                    $this->enviarProduto($produto, $grupo);
+                    sleep(4);
+                }
           
             } catch (Exception $e) {
                 Log::error('Erro ao enviar produto: ' . $e->getMessage());
+                info($e);
            
             }
         }
@@ -60,34 +58,33 @@ class EnviarProdutoPendente extends Command
      * @param Produto $produto
      * @param array $grupos
      */
-    protected function enviarProduto($produto, $grupos)
+    protected function enviarProduto($produto, $grupo)
     {
-        $mensagem = $this->service->formatMessage($produto->toArray());
-    
-        foreach ($grupos as $grupo) {
+        $mensagem = $this->service->formatMessage($produto->toArray());    
 
-            $grupo_geral = false;
-            $grupo_categoria = false;
+        $grupo_geral = false;
+        $grupo_categoria = false;
 
-            if($grupo->grupo_id == '120363303397548933@g.us' && $produto->categoria_id === null){
-                $grupo_geral = true;
-            }
+        if($grupo->nome == 'G-Ofertas #1' && $produto->categoria_id === null or isset($produto->categoria_id) && $grupo->nome == 'G-Ofertas #1'){
+            $grupo_geral = true;
+        } 
+        
+        if (isset($produto->categoria_id) && isset($grupo->categoria_id) && $produto->categoria_id == $grupo->categoria_id) {
+            $grupo_categoria = true;
+        }
 
-            if(isset($produto->categoria_id) && $grupo->grupo_id == '120363303397548933@g.us'){
-                $grupo_geral = true;
-            }
+        if ($grupo_categoria || $grupo_geral) {
+
+            if($this->evolutionApi->sendText($grupo->grupo_id, $mensagem)){                
             
-            if (isset($produto->categoria_id) && isset($grupo->categoria_id) && $produto->categoria_id == $grupo->categoria_id) {
-                $grupo_categoria = true;
-            }
-
-            if ($grupo_categoria || $grupo_geral) {
-                $this->evolutionApi->sendText($grupo->grupo_id, $mensagem);
                 $produto->status = 'enviado';
                 $produto->save(); 
-            }
-            
-         
+
+                return true;
+            }         
+
         }
+
+        return false;
     }
 }
