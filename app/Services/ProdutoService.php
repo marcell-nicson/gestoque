@@ -52,8 +52,8 @@ class ProdutoService
     {
         $data = $this->prepareData($data);
 
-        if ($data['valor_original'] >= $data['valor']) {
-            throw new Exception('O valor original não pode ser maior ou igual ao valor do produto');
+        if ($data['valor_original'] <= $data['valor']) {
+            throw new Exception('O valor original não pode ser menor ou igual ao valor do produto');
         }
 
         if($data['tipo'] == 'afiliado' && $data['link'] === null) {
