@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\StoreProdutoRequest;
+use App\Http\Requests\UpdateProdutoRequest;
 use App\Models\Categoria;
 use App\Models\Entrada;
 use App\Models\Grupo;
@@ -81,41 +82,21 @@ class ProdutoController extends Controller
     }
 
     // Atualizar produto
-    public function update(Request $request, $id)
+    public function update(UpdateProdutoRequest $request, $id)
     {
 
         try {
-            $validatedData = $request->validate([
-                'nome' => 'required|string|max:255',
-                'promocao' => 'nullable' ?? 0,
-                'descricao' => 'nullable' ?? 'Sem descricão',
-                'valor' => 'nullable',
-                'codigo_produto' => 'nullable',
-                'categoria_id' => 'nullable',
-                'tipo' => 'nullable',
-                'link' => 'nullable',
-                'marca_id' => 'nullable'
-            ]);
+            $result = $this->service->update($request->all(), $id);
 
-            $data = $validatedData;
-
-            if($request->file('image'))
-            {
-                $foto = $request->file('image');
-                $nomeFoto = time() . '.' . $foto->getClientOriginalExtension();
-                $foto->move(public_path('images'), $nomeFoto);
-                $da['image'] = $nomeFoto; 
-    
-                $data = array_merge($validatedData, $da);
-            }
-
-    
-            $pro = $this->model::whereId($id)->update($data);
-            return redirect()->route('produtos.index')->with('success', 'Produto atualizado com sucesso.');
+            return redirect()
+                ->route('produtos.index')
+                ->with($result['status'], $result['message']);
 
         } catch (Exception $e) {
-           info($e);
-           return redirect()->route('produtos.index')->with('danger', 'Erro ao Atualizar Produto');
+            info($e);
+            return redirect()
+                ->route('produtos.index')
+                ->with('danger', $e->getMessage());
 
         }
        
@@ -174,7 +155,6 @@ class ProdutoController extends Controller
                         $produto->status = 'enviado';
                         $produto->save(); 
         
-                        return true;
                     }         
         
                 } 

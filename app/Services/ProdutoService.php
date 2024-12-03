@@ -24,11 +24,12 @@ class ProdutoService
         
         $quantidadeAmazonPendente = $this->produtoRepository->quantidadeProdutosAmazonPendentes();
         $quantidadeMercadoLivrePendente = $this->produtoRepository->quantidadeProdutosMercadoLivrePendentes();
+        $outros = $this->produtoRepository->quantidadeDeoutrosProdutosPendentes();
 
         $categorias = $this->produtoRepository->pluck(Categoria::class);
         $marcas = $this->produtoRepository->pluck(Marca::class);
         
-        return compact('produtos', 'categorias', 'marcas', 'quantidadeAmazonPendente', 'quantidadeMercadoLivrePendente');
+        return compact('produtos', 'categorias', 'marcas', 'quantidadeAmazonPendente', 'quantidadeMercadoLivrePendente', 'outros');
     }
 
     public function show($id)
@@ -50,6 +51,19 @@ class ProdutoService
     public function store(array $data): array
     {
         $data = $this->prepareData($data);
+
+        if ($data['valor_original'] >= $data['valor']) {
+            throw new Exception('O valor original não pode ser maior ou igual ao valor do produto');
+        }
+
+        if($data['tipo'] == 'afiliado' && $data['link'] === null) {
+            throw new Exception('O link é obrigatório para produtos afiliados');
+        }
+
+        if(empty($data['image'] or $data['image'] === null)) {
+            throw new Exception('A imagem é obrigatória');
+        }
+
         $response = $this->produtoRepository->create($data);
     
         if (!$response) {
@@ -62,29 +76,45 @@ class ProdutoService
         ];
     }
 
+    public function update(array $data, $id)
+    {
+        $data1 = $this->prepareData($data);
+
+        $response = $this->produtoRepository->update($data1, $id);
+    
+        if (!$response) {
+            throw new Exception('Erro ao editar produto');
+        }
+    
+        return [
+            'status' => 'success',
+            'message' => 'Produto atualizado com sucesso!'
+        ];
+
+    }
+
     public function ofertas()
     {
         return $this->produtoRepository->ofertas();
-    }
-    
+    }    
 
     private function prepareData(array $data): array
     {
         return [
-            'nome' => $data['nome'] ?? null,
-            'status' => 'pendente',
+            'nome'           => $data['nome'] ?? null,
+            'status'         => $data['status'] ?? null,
             'valor_original' => $this->formatValue($data['valor_original'] ?? 0),
-            'valor' => $this->formatValue($data['valor'] ?? 0),
-            'tipo' => 'afiliado',
-            'promocao' => $data['valor_original'] ? true : false,
-            'link' => $data['link'] ?? null,
-            'categoria_id' => $data['categoria_id'] ?? null,
-            'descricao' => $data['descricao'] ?? null,
-            'image' => isset($data['image']) ? $this->handleImageUpload($data['image']) : null,
+            'valor'          => $this->formatValue($data['valor'] ?? 0),
+            'tipo'           => $data['tipo'] ?? null,
+            'promocao'       => $data['valor_original'] ? true : false,
+            'link'           => $data['link'] ?? null,
+            'categoria_id'   => $data['categoria_id'] ?? null,
+            'descricao'      => $data['descricao'] ?? null,
+            'image'          => isset($data['image']) ? $this->handleImage($data['image']) : null,
         ];
     }
 
-    private function handleImageUpload($image): string
+    private function handleImage($image): string
     {
         $imageName = time() . '.' . $image->getClientOriginalExtension();
         $image->move(public_path('images'), $imageName);
@@ -113,7 +143,7 @@ class ProdutoService
        
         $message = '*' . $produto['nome'] . "*\n\n";
 
-        if ($valorOriginal) {
+        if ($valorOriginal && $produto['valor_original'] > 0) {
             $message .= $valorOriginal . "\n";
         }
 

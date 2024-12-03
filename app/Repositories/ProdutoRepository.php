@@ -6,30 +6,48 @@ use App\Models\Produto;
 
 class ProdutoRepository
 {
+    protected $model;
+
+    public function __construct(Produto $model)
+    {
+        $this->model = $model;
+    }
     public function show($id)
     {
-        return Produto::findOrFail($id);
+        return $this->model::findOrFail($id);
     }
     public function create(array $data)
     {
-        return Produto::create($data);
+        return $this->model::create($data);
+    }
+    public function update(array $data, $id)
+    {
+        return $this->model::findOrFail($id)->update($data);
     }
     public function produto_categoria_marca()
     {
-        return Produto::with(['categoria', 'marca']);
+        return $this->model::with(['categoria', 'marca']);
     }
 
     public function quantidadeProdutosAmazonPendentes()
     {
-        return Produto::where('status', 'pendente')
+        return $this->model::where('status', 'pendente')
                         ->where('link', 'like', '%amzn%')
                         ->count();
     }
 
     public function quantidadeProdutosMercadoLivrePendentes()
     {
-        return Produto::where('status', 'pendente')
+        return $this->model::where('status', 'pendente')
                         ->where('link', 'like', '%mercadolivre%')
+                        ->count();
+    }
+
+    public function quantidadeDeoutrosProdutosPendentes()
+    {
+        return $this->model::where('status', 'pendente')
+                        ->where('link', 'not like', '%amzn%')
+                        ->where('link', 'not like', '%mercadolivre%')
                         ->count();
     }
 
@@ -66,7 +84,7 @@ class ProdutoRepository
 
     public function ofertas()
     {
-        return Produto::where('tipo', 'afiliado')
+        return $this->model::where('tipo', 'afiliado')
                         ->whereNotNull('link')
                         ->orderBy('created_at', 'desc')
                         ->get();
